@@ -1,5 +1,6 @@
 import { createUser, getUserByEmail } from "../database/users";
 import bcrypt from "bcrypt";
+import { sendEmailService } from "./email";
 
 type CreateUserArgs = {
   firstName: string;
@@ -22,6 +23,11 @@ export async function createUserService(args: CreateUserArgs) {
     lastName: args.lastName,
     email: args.email,
     password: hashedPassword,
+  });
+  await sendEmailService({
+    to: args.email,
+    subject: "Account Verification - Code",
+    text: `Hello ${args.firstName}, welcome to HackCrew, please verify your account using the following code: 123456`,
   });
   return {
     success: true,
