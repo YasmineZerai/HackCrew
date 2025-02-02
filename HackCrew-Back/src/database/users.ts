@@ -12,7 +12,7 @@ export async function createUser(args: CreateUserArgs) {
     firstName: args.firstName,
     lastName: args.lastName,
     password: args.password,
-    email: args.password,
+    email: args.email,
   });
 }
 export async function getUserByEmail(email: string): Promise<User | null> {

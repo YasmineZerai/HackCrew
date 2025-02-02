@@ -20,8 +20,10 @@ export const validation = (schema: z.AnyZodObject) => {
       next({
         status: 400,
         message: "this error happened while validating your request",
+        payload: payload,
       });
     }
+    next();
   };
   return validationMiddleware;
 };

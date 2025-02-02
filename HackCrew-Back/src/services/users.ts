@@ -9,6 +9,7 @@ type CreateUserArgs = {
 };
 export async function createUserService(args: CreateUserArgs) {
   const existingUser = await getUserByEmail(args.email);
+
   if (existingUser)
     return {
       status: 400,
