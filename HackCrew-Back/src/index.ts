@@ -3,6 +3,7 @@ import { createServer } from "node:http";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { configureRoutes } from "./routes";
+import { errorMiddleware } from "./middlewares/error";
 
 dotenv.config();
 const app = express();
@@ -10,6 +11,7 @@ const server = createServer(app);
 const mongodbString = process.env.MONGO_DB_URL;
 app.use(express.json());
 configureRoutes(app);
+app.use(errorMiddleware);
 if (mongodbString !== undefined) {
   mongoose
     .connect(mongodbString)
