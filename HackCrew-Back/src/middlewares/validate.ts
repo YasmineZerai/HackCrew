@@ -23,4 +23,5 @@ export const validation = (schema: z.AnyZodObject) => {
       });
     }
   };
+  return validationMiddleware;
 };
