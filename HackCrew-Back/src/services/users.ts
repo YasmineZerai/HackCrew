@@ -24,11 +24,11 @@ export async function createUserService(args: CreateUserArgs) {
     email: args.email,
     password: hashedPassword,
   });
-  await sendEmailService({
-    to: args.email,
-    subject: "Account Verification - Code",
-    text: `Hello ${args.firstName}, welcome to HackCrew, please verify your account using the following code: 123456`,
-  });
+  //   await sendEmailService({
+  //     to: args.email,
+  //     subject: "Account Verification - Code",
+  //     text: `Hello ${args.firstName}, welcome to HackCrew, please verify your account using the following code: 123456`,
+  //   });
   return {
     success: true,
     status: 201,

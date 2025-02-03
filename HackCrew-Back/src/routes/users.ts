@@ -2,6 +2,7 @@ import { Application } from "express";
 import { z } from "zod";
 import { validation } from "../middlewares/validate";
 import { createUserController } from "../controllers/users";
+import mongoose from "mongoose";
 
 export function configureUserRoutes(app: Application) {
   app.post("/users", [
@@ -17,4 +18,20 @@ export function configureUserRoutes(app: Application) {
     ),
     createUserController,
   ]);
+  //   app.post("/users/:userId/verify", [
+  //     validation(
+  //       z.object({
+  //         params: z.object({
+  //           postId: z
+  //             .string()
+  //             .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+  //               message: "Invalid Id",
+  //             }),
+  //         }),
+  //         body: z.object({
+  //           verficationCode: z.string(),
+  //         }),
+  //       })
+  //     ),
+  //   ]);
 }
