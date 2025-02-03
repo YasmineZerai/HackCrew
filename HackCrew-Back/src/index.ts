@@ -23,7 +23,7 @@ if (mongodbString !== undefined) {
       });
     })
     .catch((error) => {
-      console.log("an error occured while connecting to the database");
+      console.log(error.message);
       process.exit(1);
     });
 }
