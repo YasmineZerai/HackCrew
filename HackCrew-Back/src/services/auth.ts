@@ -9,7 +9,8 @@ type LoginArgs = {
 };
 type LogoutArgs = {
   token: string;
-  userId: string;
+  owner: string;
+  expiresAt: Date;
 };
 export const loginService = async (args: LoginArgs) => {
   const existingUser = await getUserByEmail(args.email);
@@ -47,4 +48,6 @@ export const loginService = async (args: LoginArgs) => {
     payload: { token },
   };
 };
-export const logoutService = async (args: LogoutArgs) => {};
+export const logoutService = async (args: LogoutArgs) => {
+  return await addToken(args);
+};

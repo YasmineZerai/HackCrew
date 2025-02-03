@@ -1,7 +1,8 @@
 import { Application } from "express";
 import { validation } from "../middlewares/validate";
 import { z } from "zod";
-import { loginController } from "../controllers/auth";
+import { loginController, logoutController } from "../controllers/auth";
+import { authMiddleware } from "../middlewares/auth";
 
 export function configureAuthRoutes(app: Application) {
   app.post("/login", [
@@ -15,4 +16,5 @@ export function configureAuthRoutes(app: Application) {
     ),
     loginController,
   ]);
+  app.post("/logout", [authMiddleware, logoutController]);
 }
