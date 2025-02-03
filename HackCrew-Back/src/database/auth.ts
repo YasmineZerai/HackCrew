@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
-import { blacklistModel } from "../models/blacklist";
+import { BlacklistModel } from "../models/blacklist";
 type addTokenArgs = {
   owner: string;
   token: string;
 };
 export async function addToken(args: addTokenArgs) {
-  return await blacklistModel.create(args);
+  return await BlacklistModel.create(args);
 }
 export async function getToken(token: string) {
-  return await blacklistModel.findOne({ token });
+  return await BlacklistModel.findOne({ token });
 }
