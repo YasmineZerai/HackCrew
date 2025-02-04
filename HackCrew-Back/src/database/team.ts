@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { TeamModel } from "../models/team";
 
 interface createTeamArgs {
@@ -11,4 +12,14 @@ export async function createTeam(args: createTeamArgs) {
     members: args.members,
     teamName: args.teamName,
   });
+}
+export async function getTeamByCode(code: String) {
+  return await TeamModel.findOne({ code });
+}
+export async function joinTeam(userId: string, teamId: string) {
+  return await TeamModel.findByIdAndUpdate(
+    teamId,
+    { $addToSet: { members: new mongoose.Types.ObjectId(userId) } }, // Convert to ObjectId
+    { new: true }
+  );
 }
