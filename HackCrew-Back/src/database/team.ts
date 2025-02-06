@@ -19,15 +19,10 @@ export async function getTeamById(teamId: string) {
 export async function getTeamCode(teamId: String) {
   return await CodeModel.findOne({ team: teamId });
 }
-export async function createTeamCode(
-  teamId: string,
-  teamCode: string,
-  expiresAt: Date
-) {
+export async function createTeamCode(teamId: string, teamCode: string) {
   return await CodeModel.create({
     team: teamId,
     code: teamCode,
-    expiresAt: expiresAt,
   });
 }
 export async function joinTeam(userId: string, teamId: string) {

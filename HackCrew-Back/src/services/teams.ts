@@ -82,8 +82,8 @@ export async function createTeamCodeService(teamId: string, userId: string) {
       message: "this team already has a code",
     };
   const teamCode = nanoid(6).toUpperCase();
-  const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
-  const payload = await createTeamCode(teamId, teamCode, expiresAt);
+
+  const payload = await createTeamCode(teamId, teamCode);
 
   return {
     success: true,

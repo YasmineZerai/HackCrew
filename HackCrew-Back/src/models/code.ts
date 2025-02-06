@@ -11,7 +11,12 @@ export interface Code {
 const CodeSchema = new mongoose.Schema<Code>({
   team: { type: mongoose.Types.ObjectId, ref: "teams", required: true },
   code: { type: String, required: true, unique: true },
-  expiresAt: { type: Date, required: true, index: { expires: "7d" } },
+  expiresAt: {
+    type: Date,
+    required: true,
+    default: () => new Date(Date.now() + 3600 * 1000),
+    index: { expires: 3600 },
+  },
 });
 
 export const CodeModel = mongoose.model("codes", CodeSchema);
