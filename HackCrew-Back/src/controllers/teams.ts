@@ -16,14 +16,14 @@ export const createTeamController = async (req: Request, res: Response) => {
   });
 };
 export const joinTeamController = async (req: Request, res: Response) => {
-  // const teamCreator = req.body.loggedUser.userId;
-  // const code = req.body.code;
-  // const response = await joinTeamService(teamCreator, code);
-  // res.status(response.status).json({
-  //   success: response.success,
-  //   message: response.message,
-  //   payload: response.payload,
-  // });
+  const user = req.body.loggedUser.userId;
+  const code = req.body.code;
+  const response = await joinTeamService(user, code);
+  res.status(response.status).json({
+    success: response.success,
+    message: response.message,
+    payload: response.payload,
+  });
 };
 export const createTeamCodeController = async (req: Request, res: Response) => {
   const userId = req.body.loggedUser.userId;

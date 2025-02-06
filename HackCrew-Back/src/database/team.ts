@@ -32,3 +32,6 @@ export async function joinTeam(userId: string, teamId: string) {
     { new: true }
   );
 }
+export async function getTeamByCode(code: string) {
+  return await CodeModel.findOne({ code });
+}
