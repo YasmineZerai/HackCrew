@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { TeamModel } from "../models/team";
+import { CodeModel } from "../models/code";
 
 interface createTeamArgs {
   teamName: String;
@@ -12,8 +13,22 @@ export async function createTeam(args: createTeamArgs) {
     teamName: args.teamName,
   });
 }
-export async function getTeamByCode(code: String) {
-  // return await TeamModel.findOne({ code });
+export async function getTeamById(teamId: string) {
+  return await TeamModel.findById(teamId);
+}
+export async function getTeamCode(teamId: String) {
+  return await CodeModel.findOne({ team: teamId });
+}
+export async function createTeamCode(
+  teamId: string,
+  teamCode: string,
+  expiresAt: Date
+) {
+  return await CodeModel.create({
+    team: teamId,
+    code: teamCode,
+    expiresAt: expiresAt,
+  });
 }
 export async function joinTeam(userId: string, teamId: string) {
   return await TeamModel.findByIdAndUpdate(

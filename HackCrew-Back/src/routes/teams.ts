@@ -2,7 +2,11 @@ import { Application } from "express";
 import { authMiddleware } from "../middlewares/auth";
 import { validation } from "../middlewares/validate";
 import { z } from "zod";
-import { createTeamController, joinTeamController } from "../controllers/teams";
+import {
+  createTeamCodeController,
+  createTeamController,
+  joinTeamController,
+} from "../controllers/teams";
 import mongoose from "mongoose";
 
 export function configureTeamsRoutes(app: Application) {
@@ -29,5 +33,20 @@ export function configureTeamsRoutes(app: Application) {
       })
     ),
     joinTeamController,
+  ]);
+  app.post("/teams/:teamId/codes", [
+    authMiddleware,
+    validation(
+      z.object({
+        params: z.object({
+          teamId: z
+            .string()
+            .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+              message: "invalid team Id",
+            }),
+        }),
+      })
+    ),
+    createTeamCodeController,
   ]);
 }

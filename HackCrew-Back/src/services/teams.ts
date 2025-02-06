@@ -1,5 +1,11 @@
 import { nanoid } from "nanoid";
-import { createTeam, getTeamByCode, joinTeam } from "../database/team";
+import {
+  createTeam,
+  getTeamCode,
+  getTeamById,
+  joinTeam,
+  createTeamCode,
+} from "../database/team";
 import mongoose from "mongoose";
 import { User } from "../models/user";
 import { getUserByEmail } from "../database/users";
@@ -58,3 +64,31 @@ export async function joinTeamService(userId: string, teamCode: string) {
 //   const existingUser=getUserByEmail(userEmail);
 //   if (existingUser)
 // }
+
+export async function createTeamCodeService(teamId: string, userId: string) {
+  const team = await getTeamById(teamId);
+  if (!team) return { success: false, status: 400, message: "invalid Team Id" };
+  const members = team.members.map((member) => {
+    return member.toString();
+  });
+  if (!members.includes(userId))
+    return { success: false, status: 400, message: "invalid user Id" };
+  const existingTeamCode = await getTeamCode(teamId);
+
+  if (existingTeamCode)
+    return {
+      success: false,
+      status: 400,
+      message: "this team already has a code",
+    };
+  const teamCode = nanoid(6).toUpperCase();
+  const expiresAt = new Date(Date.now() + 60 * 60 * 1000);
+  const payload = await createTeamCode(teamId, teamCode, expiresAt);
+
+  return {
+    success: true,
+    status: 201,
+    message: "code created successfully, this code lasts one hour",
+    payload: { payload },
+  };
+}

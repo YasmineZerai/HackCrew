@@ -9,7 +9,6 @@ export interface Team {
 
 const TeamSchema = new mongoose.Schema<Team>({
   teamName: { type: String, required: true },
-
   members: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
 });
 
