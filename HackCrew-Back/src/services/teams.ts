@@ -11,11 +11,12 @@ import mongoose from "mongoose";
 import { User } from "../models/user";
 import { getUserByEmail } from "../database/users";
 import { Team } from "../models/team";
+import { sendEmailService } from "./email";
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 export async function createTeamService(teamCreator: String, teamName: String) {
-  // const customCode = nanoid(6).toUpperCase();
   const members = [teamCreator];
   const newTeam = await createTeam({
-    // code: customCode,
     members: members,
     teamName: teamName,
   });
@@ -58,13 +59,63 @@ export async function joinTeamService(userId: string, teamCode: string) {
   }
 }
 
-// export async function inviteUserToTeamService(
-//   userEmail: string,
-//   teamId: string
-// ) {
-//   const existingUser=getUserByEmail(userEmail);
-//   if (existingUser)
-// }
+export async function inviteUserToTeamService(
+  InviterId: string,
+  invitedEmail: string,
+  teamId: string
+) {
+  const team = await getTeamById(teamId);
+  if (!team) return { success: false, status: 400, message: "invalid Team Id" };
+  const members = team.members.map((member) => {
+    return member.toString();
+  });
+  if (!members.includes(InviterId)) {
+    return {
+      success: false,
+      message: "Not authorized to invite to this team",
+      status: 403,
+    };
+  }
+  const client = process.env.VITE_CLIENT;
+  const existingUser = await getUserByEmail(invitedEmail);
+
+  const token = jwt.sign(
+    { email: invitedEmail, teamId },
+    process.env.JWT_SECRET!,
+    { expiresIn: "24h" }
+  );
+
+  const invitationLink = existingUser
+    ? `${client}/join-team?token=${token}`
+    : `${client}/sign-up`;
+  const message = await sendEmailService({
+    subject: `Invitation To Join ${team.teamName}`,
+    to: invitedEmail,
+    text: "",
+    html: `
+      <div style="font-family: Arial, sans-serif; text-align: center;">
+        <h2>You're invited to join ${team.teamName}!</h2>
+        <p>Hello ${existingUser ? existingUser.firstName : ""} ${
+      existingUser ? existingUser.lastName + "!" : "!"
+    } You have been invitd to join the ${team.teamName} team on HackCrew </p>
+   <p> Click the button below to accept the invitation:</p>
+        <a href="${invitationLink}" 
+          style="display: inline-block; padding: 10px 20px; color: white; background-color: blue; text-decoration: none; border-radius: 5px;">
+          Join Team
+        </a>
+        <p>If the button doesn't work, copy and paste this link into your browser:</p>
+        <p>${invitationLink}</p>
+      </div>
+    `,
+  });
+  if (message)
+    return {
+      success: true,
+      message: "Invitation sent successfully",
+      status: 200,
+    };
+  return { success: false, message: "Could not send email", status: 500 };
+}
 
 export async function createTeamCodeService(teamId: string, userId: string) {
   const team = await getTeamById(teamId);

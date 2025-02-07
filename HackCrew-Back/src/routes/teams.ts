@@ -5,11 +5,13 @@ import { z } from "zod";
 import {
   createTeamCodeController,
   createTeamController,
+  inviteUserToTeamController,
   joinTeamController,
 } from "../controllers/teams";
 import mongoose from "mongoose";
 
 export function configureTeamsRoutes(app: Application) {
+  //create team
   app.post("/teams", [
     authMiddleware,
     validation(
@@ -21,6 +23,7 @@ export function configureTeamsRoutes(app: Application) {
     ),
     createTeamController,
   ]);
+  //join a team
   app.patch("/teams", [
     authMiddleware,
     validation(
@@ -34,6 +37,7 @@ export function configureTeamsRoutes(app: Application) {
     ),
     joinTeamController,
   ]);
+  //generate a code for a team
   app.post("/teams/:teamId/codes", [
     authMiddleware,
     validation(
@@ -48,5 +52,24 @@ export function configureTeamsRoutes(app: Application) {
       })
     ),
     createTeamCodeController,
+  ]);
+  //invite user to team
+  app.post("/teams/:teamId/users", [
+    authMiddleware,
+    validation(
+      z.object({
+        params: z.object({
+          teamId: z
+            .string()
+            .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+              message: "invalid team Id",
+            }),
+        }),
+        body: z.object({
+          email: z.string().email(),
+        }),
+      })
+    ),
+    inviteUserToTeamController,
   ]);
 }
