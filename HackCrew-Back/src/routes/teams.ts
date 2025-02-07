@@ -5,6 +5,7 @@ import { z } from "zod";
 import {
   createTeamCodeController,
   createTeamController,
+  getTeamsByUserIdController,
   inviteUserToTeamController,
   joinTeamController,
 } from "../controllers/teams";
@@ -72,4 +73,6 @@ export function configureTeamsRoutes(app: Application) {
     ),
     inviteUserToTeamController,
   ]);
+  //get all teams for the logged user
+  app.get("/teams", [authMiddleware, getTeamsByUserIdController]);
 }

@@ -6,6 +6,7 @@ import {
   joinTeam,
   createTeamCode,
   getTeamByCode,
+  getTeamsByUserId,
 } from "../database/team";
 import mongoose from "mongoose";
 import { User } from "../models/user";
@@ -142,5 +143,20 @@ export async function createTeamCodeService(teamId: string, userId: string) {
     status: 201,
     message: "code created successfully, this code lasts one hour",
     payload: { payload },
+  };
+}
+export async function getTeamsByUserIdService(userId: string) {
+  const teams = await getTeamsByUserId(userId);
+  if (teams)
+    return {
+      success: true,
+      status: 200,
+      message: "teams fetched successfully",
+      payload: { teams },
+    };
+  return {
+    success: false,
+    status: 404,
+    message: "user isnt member of any team",
   };
 }

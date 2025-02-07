@@ -35,3 +35,6 @@ export async function joinTeam(userId: string, teamId: string) {
 export async function getTeamByCode(code: string) {
   return await CodeModel.findOne({ code });
 }
+export async function getTeamsByUserId(userId: string) {
+  return await TeamModel.find({ members: new mongoose.Types.ObjectId(userId) });
+}

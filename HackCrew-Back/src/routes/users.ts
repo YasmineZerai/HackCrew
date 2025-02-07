@@ -3,6 +3,7 @@ import { z } from "zod";
 import { validation } from "../middlewares/validate";
 import { createUserController } from "../controllers/users";
 import mongoose from "mongoose";
+import { authMiddleware } from "../middlewares/auth";
 
 export function configureUserRoutes(app: Application) {
   app.post("/users", [
