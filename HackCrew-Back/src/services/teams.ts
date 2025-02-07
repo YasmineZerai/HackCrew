@@ -15,6 +15,15 @@ import { Team } from "../models/team";
 import { sendEmailService } from "./email";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+export async function memberIsInTeamService(teamId: string, userId: string) {
+  const team = await getTeamById(teamId);
+  if (!team) return false;
+  const members = team.members.map((member) => {
+    return member.toString();
+  });
+
+  return members.includes(userId);
+}
 export async function createTeamService(teamCreator: String, teamName: String) {
   const members = [teamCreator];
   const newTeam = await createTeam({
@@ -38,19 +47,18 @@ export async function joinTeamService(userId: string, teamCode: string) {
       message: "invalid/incorrect team code",
       status: 404,
     };
-  const team = (await getTeamById(existingTeamCode.team as string)) as Team;
-  const members = team.members.map((member) => {
-    return member.toString();
-  });
 
-  if (members.includes(userId)) {
+  if (await memberIsInTeamService(existingTeamCode.team as string, userId)) {
     return {
       success: false,
       message: "You are already a member of this team",
       status: 400,
     };
   } else {
-    const updatedTeam = await joinTeam(userId, team._id.toString());
+    const updatedTeam = await joinTeam(
+      userId,
+      existingTeamCode.team.toString()
+    );
     return {
       success: true,
       message: "Congrats ! You got added to the team.",
@@ -59,24 +67,19 @@ export async function joinTeamService(userId: string, teamCode: string) {
     };
   }
 }
-
 export async function inviteUserToTeamService(
-  InviterId: string,
+  inviterId: string,
   invitedEmail: string,
   teamId: string
 ) {
-  const team = await getTeamById(teamId);
-  if (!team) return { success: false, status: 400, message: "invalid Team Id" };
-  const members = team.members.map((member) => {
-    return member.toString();
-  });
-  if (!members.includes(InviterId)) {
+  if (await memberIsInTeamService(teamId, inviterId)) {
     return {
       success: false,
       message: "Not authorized to invite to this team",
       status: 403,
     };
   }
+  const team = (await getTeamById(teamId)) as Team;
   const client = process.env.VITE_CLIENT;
   const existingUser = await getUserByEmail(invitedEmail);
 
@@ -121,13 +124,9 @@ export async function inviteUserToTeamService(
 export async function createTeamCodeService(teamId: string, userId: string) {
   const team = await getTeamById(teamId);
   if (!team) return { success: false, status: 400, message: "invalid Team Id" };
-  const members = team.members.map((member) => {
-    return member.toString();
-  });
-  if (!members.includes(userId))
+  if (await memberIsInTeamService(teamId, userId))
     return { success: false, status: 400, message: "invalid user Id" };
   const existingTeamCode = await getTeamCode(teamId);
-
   if (existingTeamCode)
     return {
       success: false,
@@ -163,15 +162,12 @@ export async function getTeamsByUserIdService(userId: string) {
 export async function getTeamMembersService(userId: string, teamId: string) {
   const team = await getTeamById(teamId);
   if (team) {
-    const members = team.members.map((member) => {
-      return member.toString();
-    });
-    if (members.includes(userId))
+    if (await memberIsInTeamService(teamId, userId))
       return {
         success: true,
         status: 200,
         message: "members fetched successfully",
-        payload: { members },
+        payload: team.members,
       };
     return {
       success: false,
@@ -181,3 +177,4 @@ export async function getTeamMembersService(userId: string, teamId: string) {
   }
   return { success: false, status: 404, message: "team not found" };
 }
+export async function getTeamCodeService(userId: string, teamId: string) {}

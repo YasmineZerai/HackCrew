@@ -78,4 +78,6 @@ export function configureTeamsRoutes(app: Application) {
   app.get("/teams", [authMiddleware, getTeamsByUserIdController]);
   //get team members
   app.get("/teams/:teamId/users", [authMiddleware, getTeamMembersController]);
+  //get team code
+  app.get("/teams/:teamId/codes", [authMiddleware]);
 }
