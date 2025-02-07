@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   createTeamCodeService,
   createTeamService,
+  getTeamMembersService,
   getTeamsByUserIdService,
   inviteUserToTeamService,
   joinTeamService,
@@ -60,6 +61,16 @@ export const getTeamsByUserIdController = async (
 ) => {
   const user = req.body.loggedUser;
   const response = await getTeamsByUserIdService(user.userId);
+  res.status(response.status).json({
+    success: response.success,
+    message: response.message,
+    payload: response.payload,
+  });
+};
+export const getTeamMembersController = async (req: Request, res: Response) => {
+  const userId = req.body.loggedUser.userId;
+  const { teamId } = req.params;
+  const response = await getTeamMembersService(userId, teamId);
   res.status(response.status).json({
     success: response.success,
     message: response.message,

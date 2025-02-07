@@ -160,3 +160,24 @@ export async function getTeamsByUserIdService(userId: string) {
     message: "user isnt member of any team",
   };
 }
+export async function getTeamMembersService(userId: string, teamId: string) {
+  const team = await getTeamById(teamId);
+  if (team) {
+    const members = team.members.map((member) => {
+      return member.toString();
+    });
+    if (members.includes(userId))
+      return {
+        success: true,
+        status: 200,
+        message: "members fetched successfully",
+        payload: { members },
+      };
+    return {
+      success: false,
+      status: 403,
+      message: "cannot get members for this team",
+    };
+  }
+  return { success: false, status: 404, message: "team not found" };
+}
