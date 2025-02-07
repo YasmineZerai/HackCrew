@@ -15,8 +15,7 @@ const CodeSchema = new mongoose.Schema<Code>({
     type: Date,
     required: true,
     default: () => new Date(Date.now() + 3600 * 1000),
-    index: { expires: 3600 },
   },
 });
-
+CodeSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 export const CodeModel = mongoose.model("codes", CodeSchema);
