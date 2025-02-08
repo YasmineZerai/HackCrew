@@ -18,3 +18,6 @@ export async function createUser(args: CreateUserArgs) {
 export async function getUserByEmail(email: string): Promise<User | null> {
   return await UserModel.findOne({ email });
 }
+export async function getUserById(userId: string) {
+  return await UserModel.findById(userId);
+}

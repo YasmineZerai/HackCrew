@@ -7,13 +7,16 @@ export async function joinTeam(userId: string, teamId: string) {
     teamId,
   });
 }
-export async function getTeamMembers(teamId: string) {
+export async function getMembershipsByTeamId(teamId: string) {
   return await MemberModel.find({
     teamId: new mongoose.Types.ObjectId(teamId),
   });
 }
-export async function getUserTeams(userId: string) {
+export async function getMembershipsByUserId(userId: string) {
   return await MemberModel.find({
-    userId: new mongoose.Types.ObjectId(userId),
+    userId,
   });
+}
+export async function getMember(userId: string, teamId: string) {
+  return await MemberModel.findOne({ userId, teamId });
 }

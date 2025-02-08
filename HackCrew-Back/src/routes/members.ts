@@ -2,15 +2,7 @@ import { Application } from "express";
 import { authMiddleware } from "../middlewares/auth";
 import { validation } from "../middlewares/validate";
 import { z } from "zod";
-import {
-  createTeamCodeController,
-  createTeamController,
-  getTeamCodeController,
-  getTeamMembersController,
-  getTeamsByUserIdController,
-  inviteUserToTeamController,
-  joinTeamController,
-} from "../controllers/teams";
+import { joinTeamController } from "../controllers/teams";
 import mongoose from "mongoose";
 
 export function configureMembersRoutes(app: Application) {
