@@ -4,7 +4,7 @@ import { loginService, logoutService } from "../services/auth";
 export const loginController = async (req: Request, res: Response) => {
   const loginToken = await loginService(req.body);
   res.cookie("authToken", loginToken.payload?.token, {
-    maxAge: 1000 * 60 * 60,
+    maxAge: 1000 * 60 * 60 * 24,
     sameSite: "strict",
   });
   res.status(loginToken.status).json({
