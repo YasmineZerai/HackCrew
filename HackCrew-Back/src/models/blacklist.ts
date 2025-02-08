@@ -11,7 +11,12 @@ export interface Blacklist {
 const blacklistSchema = new mongoose.Schema<Blacklist>({
   owner: { type: mongoose.Types.ObjectId, ref: "users", required: true },
   token: { type: String, required: true },
-  expiresAt: { type: Date, required: true, index: { expires: "7d" } },
+  expiresAt: {
+    type: Date,
+    required: true,
+    default: () => new Date(Date.now() + 3600 * 1000 * 24 * 7),
+  },
 });
+blacklistSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 export const BlacklistModel = mongoose.model("blacklist", blacklistSchema);
