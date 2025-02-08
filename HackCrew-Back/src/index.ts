@@ -19,7 +19,7 @@ if (mongodbString !== undefined) {
       console.log("connected to the database succesfully");
       const port = process.env.PORT;
       server.listen(port, () => {
-        console.log(`listenning on localhost:${port} `);
+        console.log(`listening on localhost:${port} `);
       });
     })
     .catch((error) => {

@@ -5,6 +5,7 @@ import { z } from "zod";
 import {
   createTeamCodeController,
   createTeamController,
+  getTeamCodeController,
   getTeamMembersController,
   getTeamsByUserIdController,
   inviteUserToTeamController,
@@ -79,5 +80,5 @@ export function configureTeamsRoutes(app: Application) {
   //get team members
   app.get("/teams/:teamId/users", [authMiddleware, getTeamMembersController]);
   //get team code
-  app.get("/teams/:teamId/codes", [authMiddleware]);
+  app.get("/teams/:teamId/codes", [authMiddleware, getTeamCodeController]);
 }

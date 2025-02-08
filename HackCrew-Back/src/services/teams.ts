@@ -15,6 +15,7 @@ import { Team } from "../models/team";
 import { sendEmailService } from "./email";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import e from "express";
 export async function memberIsInTeamService(teamId: string, userId: string) {
   const team = await getTeamById(teamId);
   if (!team) return false;
@@ -72,7 +73,7 @@ export async function inviteUserToTeamService(
   invitedEmail: string,
   teamId: string
 ) {
-  if (await memberIsInTeamService(teamId, inviterId)) {
+  if (!(await memberIsInTeamService(teamId, inviterId))) {
     return {
       success: false,
       message: "Not authorized to invite to this team",
@@ -124,8 +125,12 @@ export async function inviteUserToTeamService(
 export async function createTeamCodeService(teamId: string, userId: string) {
   const team = await getTeamById(teamId);
   if (!team) return { success: false, status: 400, message: "invalid Team Id" };
-  if (await memberIsInTeamService(teamId, userId))
-    return { success: false, status: 400, message: "invalid user Id" };
+  if (!(await memberIsInTeamService(teamId, userId)))
+    return {
+      success: false,
+      status: 403,
+      message: "cannot create code for this team",
+    };
   const existingTeamCode = await getTeamCode(teamId);
   if (existingTeamCode)
     return {
@@ -177,4 +182,25 @@ export async function getTeamMembersService(userId: string, teamId: string) {
   }
   return { success: false, status: 404, message: "team not found" };
 }
-export async function getTeamCodeService(userId: string, teamId: string) {}
+export async function getTeamCodeService(userId: string, teamId: string) {
+  if (!(await memberIsInTeamService(teamId, userId)))
+    return {
+      status: 403,
+      message: "cannot get code for this team",
+      success: false,
+    };
+  const existingTeamCode = await getTeamCode(teamId);
+  if (!existingTeamCode)
+    return {
+      status: 404,
+      message: "team does not have a code",
+      success: false,
+    };
+  else
+    return {
+      success: true,
+      status: 200,
+      message: "code fetched successfully",
+      payload: { existingTeamCode },
+    };
+}

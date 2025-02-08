@@ -14,7 +14,7 @@ export async function createTeam(args: createTeamArgs) {
   });
 }
 export async function getTeamById(teamId: string) {
-  return await TeamModel.findById(teamId);
+  return await TeamModel.findById(new mongoose.Types.ObjectId(teamId));
 }
 export async function getTeamCode(teamId: String) {
   return await CodeModel.findOne({ team: teamId });
