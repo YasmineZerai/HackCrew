@@ -26,20 +26,6 @@ export function configureTeamsRoutes(app: Application) {
     ),
     createTeamController,
   ]);
-  //join a team
-  app.patch("/teams", [
-    authMiddleware,
-    validation(
-      z.object({
-        body: z.object({
-          code: z.string().refine((code) => code.length === 6, {
-            message: "invalid team code",
-          }),
-        }),
-      })
-    ),
-    joinTeamController,
-  ]);
   //generate a code for a team
   app.post("/teams/:teamId/codes", [
     authMiddleware,
@@ -57,7 +43,7 @@ export function configureTeamsRoutes(app: Application) {
     createTeamCodeController,
   ]);
   //invite user to team
-  app.post("/teams/:teamId/users", [
+  app.post("/teams/:teamId/invitations", [
     authMiddleware,
     validation(
       z.object({
@@ -78,7 +64,7 @@ export function configureTeamsRoutes(app: Application) {
   //get all teams for the logged user
   app.get("/teams", [authMiddleware, getTeamsByUserIdController]);
   //get team members
-  app.get("/teams/:teamId/users", [authMiddleware, getTeamMembersController]);
+  app.get("/teams/:teamId/members", [authMiddleware, getTeamMembersController]);
   //get team code
   app.get("/teams/:teamId/codes", [authMiddleware, getTeamCodeController]);
 }
