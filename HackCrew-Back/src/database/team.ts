@@ -33,3 +33,6 @@ export async function getTeamByCode(code: string) {
 export async function deleteTeam(teamId: string) {
   await TeamModel.findByIdAndDelete(teamId);
 }
+export async function deleteTeamCode(teamId: string) {
+  await CodeModel.findOneAndDelete({ team: teamId });
+}

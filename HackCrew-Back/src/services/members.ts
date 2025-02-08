@@ -51,7 +51,8 @@ export async function leaveTeamService(userId: string, teamId: string) {
     };
   } else {
     const deletedMembership = await deleteMembership(userId, teamId);
-    if (!(await getMembershipsByTeamId(teamId))) {
+    let memberships = await getMembershipsByTeamId(teamId);
+    if (memberships.length == 0) {
       await deleteTeam(teamId);
     }
     return {
