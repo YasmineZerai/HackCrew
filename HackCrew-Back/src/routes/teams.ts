@@ -6,12 +6,11 @@ import {
   createTeamCodeController,
   createTeamController,
   getTeamCodeController,
-  getTeamMembersController,
   getTeamsByUserIdController,
   inviteUserToTeamController,
-  joinTeamController,
 } from "../controllers/teams";
 import mongoose from "mongoose";
+import { getTeamMembersController } from "../controllers/members";
 
 export function configureTeamsRoutes(app: Application) {
   //create team
@@ -64,7 +63,35 @@ export function configureTeamsRoutes(app: Application) {
   //get all teams for the logged user
   app.get("/teams", [authMiddleware, getTeamsByUserIdController]);
   //get team members
-  app.get("/teams/:teamId/members", [authMiddleware, getTeamMembersController]);
+  app.get("/teams/:teamId/members", [
+    authMiddleware,
+    validation(
+      z.object({
+        params: z.object({
+          teamId: z
+            .string()
+            .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+              message: "invalid team Id",
+            }),
+        }),
+      })
+    ),
+    getTeamMembersController,
+  ]);
   //get team code
-  app.get("/teams/:teamId/codes", [authMiddleware, getTeamCodeController]);
+  app.get("/teams/:teamId/codes", [
+    authMiddleware,
+    validation(
+      z.object({
+        params: z.object({
+          teamId: z
+            .string()
+            .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+              message: "invalid team Id",
+            }),
+        }),
+      })
+    ),
+    getTeamCodeController,
+  ]);
 }

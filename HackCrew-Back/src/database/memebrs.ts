@@ -20,3 +20,6 @@ export async function getMembershipsByUserId(userId: string) {
 export async function getMember(userId: string, teamId: string) {
   return await MemberModel.findOne({ userId, teamId });
 }
+export async function deleteMembership(userId: string, teamId: string) {
+  return await MemberModel.findOneAndDelete({ userId, teamId });
+}

@@ -6,14 +6,10 @@ import {
   createTeamCode,
   getTeamByCode,
 } from "../database/team";
-import mongoose from "mongoose";
-import { User } from "../models/user";
 import { getUserByEmail, getUserById } from "../database/users";
 import { Team } from "../models/team";
 import { sendEmailService } from "./email";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
-import e from "express";
 import {
   getMember,
   getMembershipsByTeamId,
@@ -42,34 +38,7 @@ export async function createTeamService(teamCreator: string, teamName: string) {
 }
 //jawha behi
 //TODO: add the notification aspect
-export async function joinTeamService(userId: string, teamCode: string) {
-  const existingTeamCode = await getTeamByCode(teamCode);
-  if (!existingTeamCode)
-    return {
-      success: false,
-      message: "invalid/incorrect team code",
-      status: 404,
-    };
 
-  if (await memberIsInTeamService(existingTeamCode.team as string, userId)) {
-    return {
-      success: false,
-      message: "You are already a member of this team",
-      status: 400,
-    };
-  } else {
-    const newMembership = await joinTeam(
-      userId,
-      existingTeamCode.team.toString()
-    );
-    return {
-      success: true,
-      message: "Congrats ! You got added to the team.",
-      status: 200,
-      payload: { newMembership },
-    };
-  }
-}
 //jawha behi
 export async function inviteUserToTeamService(
   inviterId: string,

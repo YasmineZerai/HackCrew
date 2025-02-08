@@ -30,3 +30,6 @@ export async function createTeamCode(teamId: string, teamCode: string) {
 export async function getTeamByCode(code: string) {
   return await CodeModel.findOne({ code });
 }
+export async function deleteTeam(teamId: string) {
+  await TeamModel.findByIdAndDelete(teamId);
+}
