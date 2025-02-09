@@ -26,6 +26,7 @@ export async function joinTeamService(userId: string, teamCode: string) {
       userId,
       existingTeamCode.team.toString()
     );
+    //notify other team members
     return {
       success: true,
       message: "Congrats ! You got added to the team.",
