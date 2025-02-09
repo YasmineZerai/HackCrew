@@ -1,9 +1,11 @@
 import { Server } from "socket.io";
 import { onlineUsers } from "..";
+import { getMembershipsByTeamId } from "../database/memebrs";
+import { notifyTeamMembersService } from "../services/notifications";
 
 export function setUpSocketServer(io: Server) {
   io.on("connection", (socket) => {
-    socket.on("join", (userId) => {
+    socket.on("join", ({ userId }) => {
       onlineUsers.set(userId, socket.id);
     });
     socket.on("disconnect", () => {
@@ -13,6 +15,14 @@ export function setUpSocketServer(io: Server) {
           break;
         }
       }
+    });
+    socket.on("alert-team", async ({ message, teamId, userId }) => {
+      await notifyTeamMembersService(
+        userId,
+        teamId,
+        message,
+        "team-member-alert"
+      );
     });
   });
 }
