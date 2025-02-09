@@ -122,13 +122,13 @@ export async function createTeamCodeService(teamId: string, userId: string) {
 //jawha behi
 export async function getTeamsByUserIdService(userId: string) {
   const memberships = await getMembershipsByUserId(userId);
-  if (memberships) {
+
+  if (memberships.length !== 0) {
     const teams = await Promise.all(
       memberships.map(async (membership) => {
         return getTeamById(membership.teamId as string);
       })
     );
-    console.log(teams);
     return {
       success: true,
       status: 200,

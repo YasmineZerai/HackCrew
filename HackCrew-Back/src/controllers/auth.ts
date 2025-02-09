@@ -14,8 +14,6 @@ export const loginController = async (req: Request, res: Response) => {
   });
 };
 export const logoutController = async (req: Request, res: Response) => {
-  console.log(req.body.loggedUser.userId);
-  console.log(req.body.token);
   const response = await logoutService({
     owner: req.body.loggedUser.userId,
     token: req.body.loggedUser.token,
