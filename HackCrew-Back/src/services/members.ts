@@ -31,10 +31,12 @@ export async function joinTeamService(userId: string, teamCode: string) {
     const teamMembers = await getMembershipsByTeamId(
       existingTeamCode.team.toString()
     );
-    console.log(teamMembers);
     teamMembers.forEach((membership) => {
       const memberId = membership.userId;
-      if (onlineUsers.has(memberId.toString())) {
+      if (
+        onlineUsers.has(memberId.toString()) &&
+        memberId.toString() !== userId
+      ) {
         io.to(onlineUsers.get(memberId.toString())).emit("team_member_joined", {
           message: `A new member has joined your team!`,
           newMemberId: userId,
@@ -51,18 +53,18 @@ export async function joinTeamService(userId: string, teamCode: string) {
   }
 }
 export async function leaveTeamService(userId: string, teamId: string) {
-  const existingTeamCode = await getTeamById(teamId);
-  if (!existingTeamCode)
+  const existingTeam = await getTeamById(teamId);
+  if (!existingTeam)
     return {
       success: false,
-      message: "invalid/incorrect team code",
+      message: "invalid/incorrect team id",
       status: 403,
     };
 
   if (!(await memberIsInTeamService(teamId, userId))) {
     return {
       success: false,
-      message: "invalid/incorrect team code",
+      message: "invalid/incorrect team id",
       status: 403,
     };
   } else {
@@ -71,6 +73,20 @@ export async function leaveTeamService(userId: string, teamId: string) {
     if (memberships.length == 0) {
       await deleteTeam(teamId);
     }
+    const teamMembers = await getMembershipsByTeamId(teamId);
+    teamMembers.forEach((membership) => {
+      const memberId = membership.userId;
+      if (
+        onlineUsers.has(memberId.toString()) &&
+        memberId.toString() !== userId
+      ) {
+        io.to(onlineUsers.get(memberId.toString())).emit("team_member_left", {
+          message: `a member has left the team`,
+          memberId: userId,
+          teamId: teamId,
+        });
+      }
+    });
     return {
       success: true,
       message: "You left the team",
