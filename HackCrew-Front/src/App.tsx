@@ -1,8 +1,10 @@
+import RegisterPage from "./pages/register";
+import { Route, Routes } from "react-router-dom";
 function App() {
   return (
-    <>
-      <div>yo</div>
-    </>
+    <Routes>
+      <Route path="/register" element={<RegisterPage />} />
+    </Routes>
   );
 }
 
