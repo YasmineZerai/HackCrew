@@ -52,13 +52,13 @@ export default function RegisterPage() {
       },
     });
     reset();
-    navigate("/login");
+    navigate("/home");
   };
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-t from-coll1-blue  to-coll2-teal-300  ">
+    <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-t from-coll1-blue  to-coll2-teal-200  ">
       <div
         className="bg-contain bg-no-repeat rounded-none  w-80 h-20 scale-90 self-start absolute top-0 "
-        style={{ backgroundImage: `url('/src/assets/logo-white.png')` }}
+        style={{ backgroundImage: `url('/src/assets/logo-white-blue.png')` }}
       ></div>
       <Card className="w-[500px]  flex flex-col justify-evenly bg-coll1-blue border-0 shadow-xl rounded-none scale-90 mt-0">
         <CardHeader>
