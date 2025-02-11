@@ -6,10 +6,12 @@ import mongoose from "mongoose";
 import { configureRoutes } from "./routes";
 import { errorMiddleware } from "./middlewares/error";
 import { setUpSocketServer } from "./socket";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 const server = createServer(app);
+app.use(cors());
 export const io = new Server(server, {
   cors: { origin: "*" },
 });
