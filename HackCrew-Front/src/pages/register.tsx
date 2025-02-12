@@ -57,7 +57,7 @@ export default function RegisterPage() {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-t from-coll1-blue  to-coll2-teal-200  ">
       <div
-        className="bg-contain bg-no-repeat rounded-none  w-80 h-20 scale-90 self-start absolute top-0 "
+        className="bg-contain bg-no-repeat rounded-none  w-80 h-20 scale-75 self-start absolute top-0 "
         style={{ backgroundImage: `url('/src/assets/logo-white-blue.png')` }}
       ></div>
       <Card className="w-[500px]  flex flex-col justify-evenly bg-coll1-blue border-0 shadow-xl rounded-none scale-90 mt-0">
