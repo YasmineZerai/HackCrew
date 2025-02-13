@@ -47,7 +47,7 @@ export default function RegisterPage() {
     }
 
     toast("Account created sccessfully", {
-      description: `Welcome ${_.payload.newUser.firstName} ${_.payload.newUser.lastName} please log in to start your journey`,
+      description: `Welcome To HackCrew ! please log in to start your journey`,
       action: {
         label: "ok",
         onClick: () => console.log("ok"),

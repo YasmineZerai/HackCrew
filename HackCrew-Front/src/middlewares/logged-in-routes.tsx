@@ -8,8 +8,9 @@ export default function LoggedInRoutes() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth.isLoggedIn) navigate("/login");
-    toast("You must log in first");
+    if (!auth.isLoggedIn) {
+      navigate("/login");
+    }
   }, [auth.isLoggedIn]);
 
   return <Outlet />;
