@@ -15,12 +15,15 @@ import { useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginApi } from "@/api/login";
+import { useAuth } from "@/context/auth/context";
 const loginSchema = z.object({
   email: z.string().nonempty({ message: "Email is required" }).email(),
   password: z.string().nonempty({ message: "Password is required" }),
 });
 type Login = z.infer<typeof loginSchema>;
+
 export default function LoginPage() {
+  const auth = useAuth();
   const navigate = useNavigate();
   const { register, handleSubmit, formState, setError, reset } = useForm<Login>(
     {
@@ -28,8 +31,8 @@ export default function LoginPage() {
     }
   );
   const onSubmit: SubmitHandler<Login> = async (state) => {
-    const [_, errors] = await loginApi(state);
-    console.log(_);
+    const [_, errors] = await auth.login(state);
+
     if (errors) {
       if (errors.payload) {
         Object.entries(errors.payload).forEach((entry) =>
@@ -43,12 +46,8 @@ export default function LoginPage() {
       return;
     }
 
-    toast("Account created sccessfully", {
-      description: `Welcome please log in to start your journey`,
-      action: {
-        label: "ok",
-        onClick: () => console.log("ok"),
-      },
+    toast("Logged in succesfully", {
+      description: `Welcome Back !`,
     });
     reset();
     navigate("/home");

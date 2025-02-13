@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerApi } from "@/api/register";
+import { useEffect } from "react";
 const registerSchema = z.object({
   firstName: z.string().nonempty({ message: "FirstName name is required" }),
   lastName: z.string().nonempty({ message: "LastName name is required" }),
@@ -22,6 +23,7 @@ const registerSchema = z.object({
   password: z.string().nonempty({ message: "Password is required" }),
 });
 type Register = z.infer<typeof registerSchema>;
+
 export default function RegisterPage() {
   const navigate = useNavigate();
   const { register, handleSubmit, formState, setError, reset } =
