@@ -24,7 +24,7 @@ export function configureUserRoutes(app: Application) {
     ),
     createUserController,
   ]);
-  app.get("/users", [authMiddleware, getUserController]);
+  app.get("/users/me", [authMiddleware, getUserController]);
   app.delete("/users", [authMiddleware, deleteUserController]);
   app.patch("/users", [
     validation(
