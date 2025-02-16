@@ -8,7 +8,6 @@ import LoggedInRoutes from "./middlewares/logged-in-routes";
 import Home from "./pages/dashboard/home";
 import UserProvider from "./context/user/user";
 import TeamsProvider from "./context/teams/teams";
-import TeamsMenu from "./components/teams-menu";
 
 function App() {
   return (
