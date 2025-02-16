@@ -5,6 +5,10 @@ import LoginPage from "./pages/login";
 import AuthProvider from "./context/auth/context";
 import NotLoggedInRoutes from "./middlewares/not-logged-in-routes";
 import LoggedInRoutes from "./middlewares/logged-in-routes";
+import Home from "./pages/dashboard/home";
+import UserProvider from "./context/user/user";
+import TeamsProvider from "./context/teams/teams";
+import TeamsMenu from "./components/teams-menu";
 
 function App() {
   return (
@@ -15,8 +19,21 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
         </Route>
-        <Route element={<LoggedInRoutes />}>
-          <Route path="/home" />
+        <Route
+          element={
+            <UserProvider>
+              <LoggedInRoutes />
+            </UserProvider>
+          }
+        >
+          <Route
+            path="/home"
+            element={
+              <TeamsProvider>
+                <Home />
+              </TeamsProvider>
+            }
+          />
         </Route>
       </Routes>
     </AuthProvider>
