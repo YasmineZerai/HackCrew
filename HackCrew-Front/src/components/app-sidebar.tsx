@@ -52,6 +52,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const userContext = useUser();
+
   const user = {
     name: `${userContext.user?.firstName} ${userContext.user?.lastName}`,
     email: `${userContext.user?.email}`,
@@ -65,7 +66,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} className="dark">
       <SidebarHeader className="text-white">
-        {teams.length > 0 && <TeamSwitcher teams={teams} />}
+        {teams.length > 0 ? (
+          <TeamSwitcher teams={teams} />
+        ) : (
+          <LoaderCircle className="animate-spin flex items-center" />
+        )}
       </SidebarHeader>
       <SidebarGroups />
       <SidebarFooter className="text-white capitalize">
