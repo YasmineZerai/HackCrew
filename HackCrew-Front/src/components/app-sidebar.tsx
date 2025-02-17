@@ -57,8 +57,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     name: `${userContext.user?.firstName} ${userContext.user?.lastName}`,
     email: `${userContext.user?.email}`,
     avatar: "/avatars/shadcn.jpg",
+    initials: `${userContext.user?.firstName.charAt(
+      0
+    )}${userContext.user?.lastName.charAt(0)}`,
   };
-  console.log(user);
+
   const teams = userContext.teams.map((team) => {
     return { name: team.teamName, logo: Command, plan: "Free" };
   });
