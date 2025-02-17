@@ -122,24 +122,24 @@ export async function createTeamCodeService(teamId: string, userId: string) {
 //jawha behi
 export async function getTeamsByUserIdService(userId: string) {
   const memberships = await getMembershipsByUserId(userId);
-
-  if (memberships.length !== 0) {
-    const teams = await Promise.all(
-      memberships.map(async (membership) => {
-        return getTeamById(membership.teamId as string);
-      })
-    );
+  if (memberships.length == 0)
     return {
       success: true,
       status: 200,
       message: "teams fetched successfully",
-      payload: { teams },
+      payload: { teams: [] },
     };
-  }
+
+  const teams = await Promise.all(
+    memberships.map(async (membership) => {
+      return getTeamById(membership.teamId as string);
+    })
+  );
   return {
-    success: false,
-    status: 404,
-    message: "user isnt member of any team",
+    success: true,
+    status: 200,
+    message: "teams fetched successfully",
+    payload: { teams },
   };
 }
 //jawha behi
