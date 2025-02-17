@@ -45,33 +45,35 @@ export function TeamSwitcher({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-64 rounded-lg"
+            className="w-64 rounded-lg bg-coll6-purple-100 border-coll6-purple-200"
             align="start"
             side="bottom"
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
+            <DropdownMenuLabel className="text-xs text-coll5-purple-400">
               Teams
             </DropdownMenuLabel>
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
                 onClick={() => setActiveTeam(team)}
-                className="gap-2 p-2"
+                className="gap-2 p-2 capitalize focus:bg-coll6-purple-200"
               >
-                <div className="flex size-6 items-center justify-center rounded-sm border">
-                  <team.logo className="size-4 shrink-0" />
+                <div className="flex size-6 items-center justify-center rounded-sm  text-coll6-purple-400">
+                  <team.logo className="size-4 shrink-0 text-coll1-blue border-none" />
                 </div>
                 {team.name}
-                <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
+                <DropdownMenuShortcut className="text-coll5-purple-400">
+                  ⌘{index + 1}
+                </DropdownMenuShortcut>
               </DropdownMenuItem>
             ))}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="gap-2 p-2">
-              <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                <Plus className="size-4" />
+            <DropdownMenuSeparator className="bg-coll6-purple-300" />
+            <DropdownMenuItem className="gap-2 p-2  focus:bg-coll6-purple-200">
+              <div className="flex size-6 items-center justify-center rounded-md  bg-coll6-purple-200">
+                <Plus className="size-4 text-coll5-purple-400" />
               </div>
-              <div className="font-medium text-muted-foreground">Add team</div>
+              <div className="font-medium text-coll5-purple-400">Add team</div>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
