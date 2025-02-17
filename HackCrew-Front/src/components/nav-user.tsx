@@ -62,7 +62,7 @@ export function NavUser({
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg bg-coll6-purple-100 border-coll6-purple-100"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
@@ -71,7 +71,7 @@ export function NavUser({
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage alt={user.name} />
-                  <AvatarFallback className="rounded-lg uppercase">
+                  <AvatarFallback className="rounded-lg uppercase bg-coll6-purple-200">
                     {user.initials}
                   </AvatarFallback>
                 </Avatar>
@@ -81,14 +81,14 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Edit />
+            <DropdownMenuSeparator className="bg-coll6-purple-400" />
+            <DropdownMenuItem className="focus:bg-coll6-purple-200">
+              <Edit className="text-coll5-purple-400" />
               Edit Account
             </DropdownMenuItem>
 
-            <DropdownMenuItem>
-              <LogOut />
+            <DropdownMenuItem className="focus:bg-coll6-purple-200">
+              <LogOut className="text-coll5-purple-400" />
               Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
