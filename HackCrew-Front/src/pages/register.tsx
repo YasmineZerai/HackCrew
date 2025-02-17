@@ -32,7 +32,7 @@ export default function RegisterPage() {
     });
   const onSubmit: SubmitHandler<Register> = async (state) => {
     const [_, errors] = await registerApi(state);
-    console.log(_);
+
     if (errors) {
       if (errors.payload) {
         Object.entries(errors.payload).forEach((entry) =>

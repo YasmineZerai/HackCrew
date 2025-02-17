@@ -11,7 +11,7 @@ type RegisterArgs = {
 export const registerApi = async (args: RegisterArgs) => {
   try {
     const { data } = await axios.post("/users", args);
-    console.log(data);
+
     return [data, null];
   } catch (error) {
     if (isAxiosError(error)) return [null, error.response?.data];

@@ -9,7 +9,6 @@ type loginArgs = {
 export const loginApi = async (args: loginArgs) => {
   try {
     const { data } = await axios.post("/login", args);
-    console.log(data);
     return [data, null];
   } catch (error) {
     if (isAxiosError(error)) return [null, error.response?.data];

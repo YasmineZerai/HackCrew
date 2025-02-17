@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginApi } from "@/api/login";
 import { useAuth } from "@/context/auth/context";
+import { getTeamsApi } from "@/api/teams/get-teams";
 const loginSchema = z.object({
   email: z.string().nonempty({ message: "Email is required" }).email(),
   password: z.string().nonempty({ message: "Password is required" }),
@@ -30,6 +31,13 @@ export default function LoginPage() {
       resolver: zodResolver(loginSchema),
     }
   );
+  const handleLogin = async () => {
+    const data = await getTeamsApi();
+    const teams = data[0].payload.teams;
+
+    if (teams.length == 0) navigate("/home/demo");
+    else navigate("/home");
+  };
   const onSubmit: SubmitHandler<Login> = async (state) => {
     const [_, errors] = await auth.login(state);
 
@@ -50,7 +58,7 @@ export default function LoginPage() {
       description: `Welcome Back !`,
     });
     reset();
-    navigate("/home");
+    await handleLogin();
   };
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-t  from-coll1-blue  to-coll2-teal-200  ">
