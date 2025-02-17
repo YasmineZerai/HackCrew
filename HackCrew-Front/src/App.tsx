@@ -8,6 +8,7 @@ import LoggedInRoutes from "./middlewares/logged-in-routes";
 import Home from "./pages/dashboard/home";
 import UserProvider from "./context/user/user";
 import TeamsProvider from "./context/teams/teams";
+import DemoPage from "./pages/DemoPage/demo";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             </UserProvider>
           }
         >
+          <Route path="/home/demo" element={<DemoPage />}></Route>
           <Route
             path="/home"
             element={

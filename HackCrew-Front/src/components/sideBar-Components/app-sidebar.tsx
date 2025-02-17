@@ -13,8 +13,8 @@ import {
   Users,
 } from "lucide-react";
 
-import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
+import { NavUser } from "@/components/sideBar-Components/nav-user";
+import { TeamSwitcher } from "@/components/sideBar-Components/team-switcher";
 import {
   Sidebar,
   SidebarFooter,
