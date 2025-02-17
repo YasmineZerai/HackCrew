@@ -69,7 +69,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {teams.length > 0 ? (
           <TeamSwitcher teams={teams} />
         ) : (
-          <LoaderCircle className="animate-spin flex items-center" />
+          <div className="flex justify-items-center text-gray-500">
+            <LoaderCircle className="animate-spin flex items-center" />
+            <p>Loading..</p>
+          </div>
         )}
       </SidebarHeader>
       <SidebarGroups />
