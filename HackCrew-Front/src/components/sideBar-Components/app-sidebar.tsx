@@ -22,8 +22,10 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useUser } from "@/context/user/user";
-
+import { useEffect } from "react";
 import SidebarGroups from "./app-sidebar-content";
+import { getLoggedUser } from "@/api/get-logged-user";
+import axios from "axios";
 
 const data = {
   user: {
@@ -52,7 +54,6 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const userContext = useUser();
-
   const user = {
     name: `${userContext.user?.firstName} ${userContext.user?.lastName}`,
     email: `${userContext.user?.email}`,
@@ -61,11 +62,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       0
     )}${userContext.user?.lastName.charAt(0)}`,
   };
-
   const teams = userContext.teams.map((team) => {
     return { name: team.teamName, logo: Command, plan: "Free" };
   });
-
   return (
     <Sidebar collapsible="icon" {...props} className="dark">
       <SidebarHeader className="text-white">

@@ -15,7 +15,6 @@ import { useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerApi } from "@/api/register";
-import { useEffect } from "react";
 const registerSchema = z.object({
   firstName: z.string().nonempty({ message: "FirstName name is required" }),
   lastName: z.string().nonempty({ message: "LastName name is required" }),
@@ -48,13 +47,9 @@ export default function RegisterPage() {
 
     toast("Account created sccessfully", {
       description: `Welcome To HackCrew ! please log in to start your journey`,
-      action: {
-        label: "ok",
-        onClick: () => console.log("ok"),
-      },
     });
     reset();
-    navigate("/home");
+    navigate("/login");
   };
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-t from-coll1-blue  to-coll2-teal-200  ">
