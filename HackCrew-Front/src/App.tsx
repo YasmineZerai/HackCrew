@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router";
+import { Outlet, Route, Routes } from "react-router";
 import RegisterPage from "./pages/register";
 import { Toaster } from "@/components/ui/sonner";
 import LoginPage from "./pages/login";
@@ -26,15 +26,16 @@ function App() {
             </UserProvider>
           }
         >
-          <Route path="/home/demo" element={<DemoPage />}></Route>
           <Route
-            path="/home"
             element={
               <TeamsProvider>
-                <Home />
+                <Outlet />
               </TeamsProvider>
             }
-          />
+          >
+            <Route path="/home" element={<Home />} />
+          </Route>
+          <Route path="/home/demo" element={<DemoPage />} />
         </Route>
       </Routes>
     </AuthProvider>
