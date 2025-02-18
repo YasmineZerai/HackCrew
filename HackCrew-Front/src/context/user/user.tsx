@@ -10,9 +10,11 @@ import {
 import { useAuth } from "../auth/context";
 import { getTeamsApi } from "@/api/teams/get-teams";
 import { createTeamApi } from "@/api/teams/create-team";
+import { joinTeamApi } from "@/api/teams/join-team";
 type UserContextType = {
   user: User | null;
   createTeam: (teamName: string) => Promise<any>;
+  joinTeam: (code: string) => Promise<any>;
   setUser: (user: any) => void;
   logout: () => void;
   teams: Team[];
@@ -35,6 +37,10 @@ export default function UserProvider({ children }: PropsWithChildren) {
     const [data, error] = response;
     return response;
   };
+  const joinTeam = async (code: string) => {
+    const response = await joinTeamApi(code);
+    return response;
+  };
 
   useEffect(() => {
     getLoggedUser().then(([data, _]) => {
@@ -55,7 +61,15 @@ export default function UserProvider({ children }: PropsWithChildren) {
   };
   return (
     <UserContext.Provider
-      value={{ user, createTeam, setUser, logout, teams, setHasNewTeam }}
+      value={{
+        user,
+        createTeam,
+        setUser,
+        logout,
+        teams,
+        setHasNewTeam,
+        joinTeam,
+      }}
     >
       {children}
     </UserContext.Provider>

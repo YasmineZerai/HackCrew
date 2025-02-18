@@ -3,7 +3,7 @@ import { isAxiosError } from "axios";
 
 export const joinTeamApi = async (code: string) => {
   try {
-    const { data } = await axios.post("/memebrs", { code: code });
+    const { data } = await axios.post("/members", { code: code });
     return [data, null];
   } catch (error) {
     if (isAxiosError(error)) return [null, error.response?.data];

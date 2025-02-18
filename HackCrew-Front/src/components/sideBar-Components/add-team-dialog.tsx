@@ -1,6 +1,7 @@
 import { DialogContent } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CreateTeamCard from "./create-team-card";
+import JoinTeamCard from "./join-team-card";
 export default function AddTeamDialog() {
   return (
     <DialogContent className="dark sm:max-w-[425px]">
@@ -13,7 +14,7 @@ export default function AddTeamDialog() {
           <CreateTeamCard />
         </TabsContent>
         <TabsContent value="existing" className="text-white">
-          Change your existing here.
+          <JoinTeamCard />
         </TabsContent>
       </Tabs>
     </DialogContent>
