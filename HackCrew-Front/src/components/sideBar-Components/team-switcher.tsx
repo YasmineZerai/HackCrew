@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, Plus } from "lucide-react";
+import { ChevronDown, Command, Plus } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -17,16 +17,17 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { useTeams } from "@/context/teams/useTeams";
 
 export function TeamSwitcher({
   teams,
 }: {
   teams: {
-    name: string;
-    logo: React.ElementType;
-    plan: string;
+    teamName: string;
   }[];
 }) {
+  const teamContext = useTeams();
+
   const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
   return (
@@ -36,10 +37,10 @@ export function TeamSwitcher({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="w-fit px-1.5 " size="xl">
               <div className="flex aspect-square size-5 items-center justify-center rounded-md bg-sidebar-primary ">
-                <activeTeam.logo className="size-3" />
+                <Command className="size-3" />
               </div>
               <span className="truncate font-semibold capitalize">
-                {activeTeam.name}
+                {activeTeam.teamName}
               </span>
               <ChevronDown className="opacity-50" />
             </SidebarMenuButton>
@@ -55,14 +56,14 @@ export function TeamSwitcher({
             </DropdownMenuLabel>
             {teams.map((team, index) => (
               <DropdownMenuItem
-                key={team.name}
+                key={team.teamName}
                 onClick={() => setActiveTeam(team)}
                 className="gap-2 p-2 capitalize focus:bg-coll6-purple-200"
               >
                 <div className="flex size-6 items-center justify-center rounded-sm  text-coll6-purple-400">
-                  <team.logo className="size-4 shrink-0 text-coll1-blue border-none" />
+                  <Command className="size-4 shrink-0 text-coll1-blue border-none" />
                 </div>
-                {team.name}
+                {team.teamName}
                 <DropdownMenuShortcut className="text-coll5-purple-400">
                   ⌘{index + 1}
                 </DropdownMenuShortcut>

@@ -62,9 +62,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       0
     )}${userContext.user?.lastName.charAt(0)}`,
   };
-  const teams = userContext.teams.map((team) => {
-    return { name: team.teamName, logo: Command, plan: "Free" };
-  });
+  const teams = userContext.teams;
   return (
     <Sidebar collapsible="icon" {...props} className="dark">
       <SidebarHeader className="text-white">
