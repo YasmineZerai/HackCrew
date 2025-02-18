@@ -5,7 +5,7 @@ import { getTeamCodeApi } from "@/api/teams/get-team-code";
 import { joinTeamApi } from "@/api/teams/join-team";
 interface TeamsContextType {
   activeTeam: Team;
-  setActiveTeam: any;
+  setActiveTeam: (team: Team) => void;
   getTeamMembers: (teamId: string) => Promise<any[]>;
   getTeamCode: (teamId: string) => Promise<any>;
   joinTeam: (code: string) => Promise<any>;
