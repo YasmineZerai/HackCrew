@@ -13,8 +13,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { useTeams } from "@/context/teams/useTeams";
+import { useUser } from "@/context/user/user";
 
 export default function Home() {
+  const teamContext = useTeams();
+  const userContext = useUser();
+  teamContext.setActiveTeam(userContext.teams[userContext.teams.length - 1]);
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -23,7 +28,7 @@ export default function Home() {
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
+            {/* <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink
@@ -40,7 +45,7 @@ export default function Home() {
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> */}
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-coll6-purple-200 ">

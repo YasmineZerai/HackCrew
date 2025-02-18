@@ -28,7 +28,7 @@ export function TeamSwitcher({
 }) {
   const teamContext = useTeams();
 
-  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
+  // const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
   return (
     <SidebarMenu>
@@ -40,7 +40,7 @@ export function TeamSwitcher({
                 <Command className="size-3" />
               </div>
               <span className="truncate font-semibold capitalize">
-                {activeTeam.teamName}
+                {teamContext.activeTeam.teamName}
               </span>
               <ChevronDown className="opacity-50" />
             </SidebarMenuButton>
@@ -57,7 +57,7 @@ export function TeamSwitcher({
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.teamName}
-                onClick={() => setActiveTeam(team)}
+                onClick={() => teamContext.setActiveTeam(team)}
                 className="gap-2 p-2 capitalize focus:bg-coll6-purple-200"
               >
                 <div className="flex size-6 items-center justify-center rounded-sm  text-coll6-purple-400">
