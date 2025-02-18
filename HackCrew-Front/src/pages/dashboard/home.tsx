@@ -55,7 +55,7 @@ export default function Home() {
             </Breadcrumb> */}
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-coll6-purple-200 ">
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 bg-white ">
           <div className="min-h-[100vh] flex-1 rounded-xl md:min-h-min bg-muted/50" />
         </div>
       </SidebarInset>

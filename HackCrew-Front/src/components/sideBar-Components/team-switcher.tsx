@@ -2,7 +2,15 @@
 
 import * as React from "react";
 import { ChevronDown, Command, Plus } from "lucide-react";
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,6 +26,10 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useTeams } from "@/context/teams/useTeams";
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import AddTeamDialog from "./add-team-dialog";
 
 export function TeamSwitcher({
   teams,
@@ -73,12 +85,19 @@ export function TeamSwitcher({
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator className="bg-coll6-purple-300" />
-            <DropdownMenuItem className="gap-2 p-2  focus:bg-coll6-purple-200">
-              <div className="flex size-6 items-center justify-center rounded-md  bg-coll6-purple-200">
-                <Plus className="size-4 text-coll5-purple-400" />
-              </div>
-              <div className="font-medium text-coll5-purple-400">Add team</div>
-            </DropdownMenuItem>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="w-full  bg-coll6-purple-100 hover:bg-coll6-purple-200 ">
+                  <div className="flex size-6 items-center justify-center rounded-md  bg-coll6-purple-200">
+                    <Plus className="size-4 text-coll5-purple-400" />
+                  </div>
+                  <div className="font-medium text-coll5-purple-400">
+                    Add team
+                  </div>
+                </Button>
+              </DialogTrigger>
+              <AddTeamDialog />
+            </Dialog>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
