@@ -41,7 +41,17 @@ export function TeamSwitcher({
   }[];
 }) {
   const teamContext = useTeams();
-
+  const ChangeTeam = async (team: { _id: string; teamName: string }) => {
+    teamContext.setActiveTeam(team);
+    const [response, error] = await teamContext.getTeamCode(team._id);
+    if (response.payload) {
+      teamContext.setHasCode(true);
+      teamContext.setTeamCode(response.payload.existingTeamCode.code);
+    } else {
+      teamContext.setHasCode(false);
+      teamContext.setTeamCode("");
+    }
+  };
   // const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
   return (
@@ -71,9 +81,7 @@ export function TeamSwitcher({
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.teamName}
-                onClick={() => {
-                  teamContext.setActiveTeam(team);
-                }}
+                onClick={() => ChangeTeam(team)}
                 className="gap-2 p-2 capitalize focus:bg-coll6-purple-200"
               >
                 <div className="flex size-6 items-center justify-center rounded-sm  text-coll6-purple-400">

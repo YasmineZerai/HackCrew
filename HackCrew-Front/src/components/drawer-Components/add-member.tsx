@@ -18,22 +18,27 @@ import {
 import { Input } from "@/components/ui/input";
 import { CardTitle } from "../ui/card";
 import { useTeams } from "@/context/teams/useTeams";
+import { useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 const FormSchema = z.object({
   email: z.string().nonempty({ message: "Email is required" }).email(),
 });
 
 export default function AddMember() {
+  const [loading, setLoading] = useState(false);
   const teamContext = useTeams();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setLoading(true);
     const [_, errors] = await teamContext.inviteUser(
       teamContext.activeTeam._id,
       data.email
     );
+    setLoading(false);
     if (errors) {
       if (errors.payload) {
         Object.entries(errors.payload).forEach((entry) =>
@@ -81,7 +86,14 @@ export default function AddMember() {
             </FormItem>
           )}
         />
-        <Button type="submit">invite</Button>
+        <div className="flex gap-4 items-center justify-center">
+          <Button type="submit">invite</Button>
+          {loading ? (
+            <LoaderCircle className="animate-spin text-gray-800" />
+          ) : (
+            ""
+          )}
+        </div>
       </form>
     </Form>
   );
