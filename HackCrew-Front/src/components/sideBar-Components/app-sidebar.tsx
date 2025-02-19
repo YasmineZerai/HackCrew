@@ -1,18 +1,6 @@
 "use client";
-
 import * as React from "react";
-import {
-  AudioWaveform,
-  Bot,
-  Command,
-  GalleryVerticalEnd,
-  LoaderCircle,
-  MessageSquare,
-  Presentation,
-  User,
-  Users,
-} from "lucide-react";
-
+import { LoaderCircle } from "lucide-react";
 import { NavUser } from "@/components/sideBar-Components/nav-user";
 import { TeamSwitcher } from "@/components/sideBar-Components/team-switcher";
 import {
@@ -22,35 +10,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { useUser } from "@/context/user/user";
-import { useEffect } from "react";
 import SidebarGroups from "./app-sidebar-content";
-import { getLoggedUser } from "@/api/get-logged-user";
-import axios from "axios";
-
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
-};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const userContext = useUser();
@@ -66,14 +26,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props} className="dark">
       <SidebarHeader className="text-white">
-        {teams.length > 0 ? (
-          <TeamSwitcher teams={teams} />
-        ) : (
-          <div className="flex justify-items-center text-gray-500">
-            <LoaderCircle className="animate-spin flex items-center" />
-            <p>Loading..</p>
-          </div>
-        )}
+        <TeamSwitcher teams={teams} />
       </SidebarHeader>
       <SidebarGroups />
       <SidebarFooter className="text-white capitalize">

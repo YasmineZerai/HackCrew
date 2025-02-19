@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronDown, Command, Plus } from "lucide-react";
+import { ChevronDown, Command, Plus, Settings2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -30,6 +30,7 @@ import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import AddTeamDialog from "./add-team-dialog";
+import ManageTeamButton from "../drawer-Components/manage-team-button";
 
 export function TeamSwitcher({
   teams,
@@ -100,6 +101,7 @@ export function TeamSwitcher({
             </Dialog>
           </DropdownMenuContent>
         </DropdownMenu>
+        <ManageTeamButton />
       </SidebarMenuItem>
     </SidebarMenu>
   );
