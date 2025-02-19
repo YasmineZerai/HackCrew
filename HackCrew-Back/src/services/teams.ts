@@ -184,7 +184,7 @@ export async function getTeamCodeService(userId: string, teamId: string) {
   const existingTeamCode = await getTeamCode(teamId);
   if (!existingTeamCode)
     return {
-      status: 404,
+      status: 200,
       message: "team does not have a code",
       success: false,
     };
