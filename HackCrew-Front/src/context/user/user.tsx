@@ -11,6 +11,7 @@ import { useAuth } from "../auth/context";
 import { getTeamsApi } from "@/api/teams/get-teams";
 import { createTeamApi } from "@/api/teams/create-team";
 import { joinTeamApi } from "@/api/teams/join-team";
+import { useShouldFetch } from "../should-fetch";
 type UserContextType = {
   user: User | null;
   createTeam: (teamName: string) => Promise<any>;
@@ -28,6 +29,7 @@ export function useUser() {
 }
 
 export default function UserProvider({ children }: PropsWithChildren) {
+  const { shouldFetch } = useShouldFetch();
   const [user, setUser] = useState<any>(null);
   const [teams, setTeams] = useState([] as Team[]);
   const [hasNewTeam, setHasNewTeam] = useState(false);
@@ -43,22 +45,33 @@ export default function UserProvider({ children }: PropsWithChildren) {
   };
 
   useEffect(() => {
-    getLoggedUser().then(([data, _]) => {
-      if (data) setUser(data.payload.user);
-    });
-  }, []);
+    const controller = new AbortController();
+    if (shouldFetch) {
+      getLoggedUser(controller.signal).then(([data, _]) => {
+        if (data) setUser(data.payload.user);
+      });
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [shouldFetch]);
+
   useEffect(() => {
-    getTeamsApi().then(([data, _]) => {
-      if (data) setTeams(data.payload.teams);
-    });
-    setHasNewTeam(false);
-  }, [hasNewTeam]);
+    if (shouldFetch) {
+      getTeamsApi().then(([data, _]) => {
+        if (data) setTeams(data.payload.teams);
+      });
+      setHasNewTeam(false);
+    }
+  }, [hasNewTeam, shouldFetch]);
 
   const logout = () => {
     auth.logout().then(() => {
       setUser(null);
     });
   };
+
   return (
     <UserContext.Provider
       value={{
