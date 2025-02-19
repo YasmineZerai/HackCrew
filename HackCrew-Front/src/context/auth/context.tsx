@@ -9,6 +9,7 @@ import { authReducer } from "./reducer";
 import { loginApi } from "@/api/login";
 import { logoutApi } from "@/api/logout";
 import { axios } from "@/lib/axios";
+import { useShouldFetch } from "../should-fetch";
 
 type LoginArgs = {
   email: string;
@@ -49,6 +50,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     }
   );
 
+  const { handleShouldFetch } = useShouldFetch();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -57,6 +60,8 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         return request;
       });
     }
+
+    handleShouldFetch(true);
   }, []);
 
   const login = async (args: LoginArgs) => {
