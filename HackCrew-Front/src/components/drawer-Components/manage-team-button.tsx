@@ -12,9 +12,9 @@ import {
 import { useTeams } from "@/context/teams/useTeams";
 import AddMember from "./add-member";
 import { TeamCode } from "./team-code";
-import { getTeamCodeApi } from "@/api/teams/get-team-code";
 import { Separator } from "../ui/separator";
 import { useState } from "react";
+import TeamMembers from "./team-members";
 export default function ManageTeamButton() {
   const teamContext = useTeams();
   const [readyToRender, setIsReadyToRender] = useState(false);
@@ -44,7 +44,7 @@ export default function ManageTeamButton() {
       </DrawerTrigger>
       <DrawerContent className="bg-coll6-purple-200 flex flex-col justify-center items-center ">
         <DrawerHeader className="text-coll6-purple-300 mb-5">
-          <DrawerTitle className="capitalize text-2xl">
+          <DrawerTitle className="capitalize text-3xl text-coll6-purple-300 mb-5">
             Manage Your Team : {teamContext.activeTeam.teamName}
           </DrawerTitle>
         </DrawerHeader>
@@ -57,7 +57,7 @@ export default function ManageTeamButton() {
             <LoaderCircle className="animate-spin" />
           )}
           <Separator orientation="vertical" />
-          <div className="h-5 w-5 bg-coll1-blue"></div>
+          <TeamMembers />
         </div>
         <DrawerFooter></DrawerFooter>
       </DrawerContent>

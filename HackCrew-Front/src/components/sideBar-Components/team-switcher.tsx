@@ -1,16 +1,6 @@
 "use client";
-
-import * as React from "react";
-import { ChevronDown, Command, Plus, Settings2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { ChevronDown, Command, Plus } from "lucide-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,8 +17,6 @@ import {
 } from "@/components/ui/sidebar";
 import { useTeams } from "@/context/teams/useTeams";
 import { Button } from "../ui/button";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import AddTeamDialog from "./add-team-dialog";
 import ManageTeamButton from "../drawer-Components/manage-team-button";
 
@@ -51,9 +39,11 @@ export function TeamSwitcher({
       teamContext.setHasCode(false);
       teamContext.setTeamCode("");
     }
+    const teams = await teamContext.getTeamMembers(team._id);
+    if (teams[0]) {
+      teamContext.setMembers(teams[0].payload.users);
+    }
   };
-  // const [activeTeam, setActiveTeam] = React.useState(teams[0]);
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>

@@ -1,4 +1,4 @@
-import { Team } from "@/lib/types";
+import { Team, User } from "@/lib/types";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { getTeamMembersApi } from "@/api/teams/get-team-members";
 import { getTeamCodeApi } from "@/api/teams/get-team-code";
@@ -17,6 +17,8 @@ interface TeamsContextType {
   teamCode: string;
   hasCode: boolean;
   setHasCode: (state: boolean) => void;
+  members: User[];
+  setMembers: (tab: User[]) => void;
 }
 
 export const TeamsContext = createContext({} as TeamsContextType);
@@ -24,6 +26,7 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
   const [activeTeam, setActiveTeam] = useState({} as Team);
   const [teamCode, setTeamCode] = useState("");
   const [hasCode, setHasCode] = useState(false);
+  const [members, setMembers] = useState([] as User[]);
   const getTeamMembers = async (teamId: string): Promise<any[]> => {
     const response = await getTeamMembersApi(teamId);
     const [data, error] = response;
@@ -66,6 +69,8 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
         createTeamCode,
         teamCode,
         setTeamCode,
+        members,
+        setMembers,
       }}
     >
       {children}
