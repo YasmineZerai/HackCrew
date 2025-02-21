@@ -44,7 +44,7 @@ export default function ManageTeamButton() {
       </DrawerTrigger>
       <DrawerContent className="bg-coll6-purple-200 flex flex-col justify-center items-center ">
         <DrawerHeader className="text-coll6-purple-300 mb-5">
-          <DrawerTitle className="capitalize text-3xl text-coll6-purple-300 mb-5">
+          <DrawerTitle className="capitalize text-3xl text-white mb-5">
             Manage Your Team : {teamContext.activeTeam.teamName}
           </DrawerTitle>
         </DrawerHeader>
