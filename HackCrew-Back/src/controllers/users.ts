@@ -23,6 +23,15 @@ export const getUserController = async (req: Request, res: Response) => {
     payload: result.payload,
   });
 };
+export const getUserByIdController = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const result = await getUserService(userId);
+  res.status(result.status).json({
+    success: result.success,
+    message: result.message,
+    payload: result.payload,
+  });
+};
 export const deleteUserController = async (req: Request, res: Response) => {
   const userId = req.body.loggedUser.userId;
   const result = await deleteUserService(userId);

@@ -4,6 +4,7 @@ import { validation } from "../middlewares/validate";
 import {
   createUserController,
   deleteUserController,
+  getUserByIdController,
   getUserController,
   updateUserController,
 } from "../controllers/users";
@@ -25,6 +26,21 @@ export function configureUserRoutes(app: Application) {
     createUserController,
   ]);
   app.get("/users/me", [authMiddleware, getUserController]);
+  app.get("users/:userId", [
+    authMiddleware,
+    validation(
+      z.object({
+        params: z.object({
+          userId: z
+            .string()
+            .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+              message: "Invalid user Id",
+            }),
+        }),
+      })
+    ),
+    getUserByIdController,
+  ]);
   app.delete("/users", [authMiddleware, deleteUserController]);
   app.patch("/users", [
     validation(
