@@ -5,6 +5,7 @@ import { z } from "zod";
 import {
   createTeamCodeController,
   createTeamController,
+  getTeamByIdController,
   getTeamCodeController,
   getTeamsByUserIdController,
   inviteUserToTeamController,
@@ -93,5 +94,20 @@ export function configureTeamsRoutes(app: Application) {
       })
     ),
     getTeamCodeController,
+  ]);
+  app.get("/teams/:teamId", [
+    authMiddleware,
+    validation(
+      z.object({
+        params: z.object({
+          teamId: z
+            .string()
+            .refine((id) => mongoose.Types.ObjectId.isValid(id), {
+              message: "invalid team Id",
+            }),
+        }),
+      })
+    ),
+    getTeamByIdController,
   ]);
 }

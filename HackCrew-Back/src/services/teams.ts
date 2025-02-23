@@ -196,3 +196,25 @@ export async function getTeamCodeService(userId: string, teamId: string) {
       payload: { existingTeamCode },
     };
 }
+export async function getTeamByIdService(teamId: string, userId: string) {
+  if (!(await memberIsInTeamService(teamId, userId)))
+    return {
+      success: false,
+      status: 403,
+      message: "cannot get this team",
+    };
+  const team = await getTeamById(teamId);
+  if (!team)
+    return {
+      success: false,
+      status: 400,
+      message: "invalid Team Id",
+    };
+
+  return {
+    success: true,
+    status: 201,
+    message: "team fetched successfully",
+    payload: { team },
+  };
+}

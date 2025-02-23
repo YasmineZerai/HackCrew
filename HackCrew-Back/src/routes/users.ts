@@ -26,7 +26,7 @@ export function configureUserRoutes(app: Application) {
     createUserController,
   ]);
   app.get("/users/me", [authMiddleware, getUserController]);
-  app.get("users/:userId", [
+  app.get("/users/:userId", [
     authMiddleware,
     validation(
       z.object({
