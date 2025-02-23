@@ -11,6 +11,7 @@ import TeamsProvider from "./context/teams/teams";
 import DemoPage from "./pages/DemoPage/demo";
 import ShouldFetchProvider from "./context/should-fetch";
 import LoggedDasboard from "./layouts/logged-dashboard";
+import NotifactionsProvider from "./context/notifcations";
 
 function App() {
   return (
@@ -25,7 +26,9 @@ function App() {
           <Route
             element={
               <UserProvider>
-                <LoggedInRoutes />
+                <NotifactionsProvider>
+                  <LoggedInRoutes />
+                </NotifactionsProvider>
               </UserProvider>
             }
           >

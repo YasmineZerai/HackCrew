@@ -12,6 +12,7 @@ import { getTeamsApi } from "@/api/teams/get-teams";
 import { createTeamApi } from "@/api/teams/create-team";
 import { joinTeamApi } from "@/api/teams/join-team";
 import { useShouldFetch } from "../should-fetch";
+import { getUserApi } from "@/api/get-user";
 type UserContextType = {
   user: User | null;
   createTeam: (teamName: string) => Promise<any>;
@@ -19,7 +20,8 @@ type UserContextType = {
   setUser: (user: any) => void;
   logout: () => void;
   teams: Team[];
-  setHasNewTeam: (hasNewTeam: boolean) => void; // Ajouté ici
+  setHasNewTeam: (hasNewTeam: boolean) => void;
+  getUserById: (userId: string) => Promise<any>;
 };
 
 const UserContext = createContext({} as UserContextType);
@@ -43,7 +45,10 @@ export default function UserProvider({ children }: PropsWithChildren) {
     const response = await joinTeamApi(code);
     return response;
   };
-
+  const getUserById = async (userId: string) => {
+    const response = await getUserApi(userId);
+    return response;
+  };
   useEffect(() => {
     const controller = new AbortController();
     if (shouldFetch) {
@@ -64,7 +69,7 @@ export default function UserProvider({ children }: PropsWithChildren) {
       });
       setHasNewTeam(false);
     }
-  }, [hasNewTeam, shouldFetch]);
+  }, [shouldFetch, hasNewTeam]);
 
   const logout = () => {
     auth.logout().then(() => {
@@ -82,6 +87,7 @@ export default function UserProvider({ children }: PropsWithChildren) {
         teams,
         setHasNewTeam,
         joinTeam,
+        getUserById,
       }}
     >
       {children}
