@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/context/user/user";
 import { toast } from "sonner";
 import { z } from "zod";
+import { useTeams } from "@/context/teams/useTeams";
 const createTeamSchema = z.object({
   teamName: z.string().nonempty({ message: "Team Name is required" }),
 });
@@ -22,6 +23,7 @@ type CreateTeam = z.infer<typeof createTeamSchema>;
 
 export default function CreateTeamCard() {
   const userContext = useUser();
+  const teamContext = useTeams();
   const navigate = useNavigate();
   const { register, handleSubmit, formState, setError, reset } =
     useForm<CreateTeam>({
@@ -48,6 +50,7 @@ export default function CreateTeamCard() {
     });
     reset();
     userContext.setHasNewTeam(true);
+    teamContext.setActiveTeam(_.payload.newTeam);
   };
   return (
     <Card>

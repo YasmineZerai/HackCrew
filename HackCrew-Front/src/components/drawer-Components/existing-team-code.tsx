@@ -7,7 +7,7 @@ export default function ExistingTeamCode(args: { code: string }) {
   const [copied, setCopied] = useState(false);
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText("ABCDEFG");
+      await navigator.clipboard.writeText(args.code);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (error) {

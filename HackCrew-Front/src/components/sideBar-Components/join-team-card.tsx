@@ -20,6 +20,9 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { useUser } from "@/context/user/user";
+import { useTeams } from "@/context/teams/useTeams";
+import { getTeamsApi } from "@/api/teams/get-teams";
+import { getTeamByIdApi } from "@/api/teams/get-team";
 
 const FormSchema = z.object({
   code: z.string().min(6, {
@@ -29,6 +32,7 @@ const FormSchema = z.object({
 
 export default function JoinTeamCard() {
   const userContext = useUser();
+  const teamContext = useTeams();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -54,6 +58,9 @@ export default function JoinTeamCard() {
     });
     form.reset();
     userContext.setHasNewTeam(true);
+    getTeamByIdApi(_.payload.newMembership.teamId).then(([response, error]) => {
+      teamContext.setActiveTeam(response.payload.team);
+    });
   }
 
   return (
