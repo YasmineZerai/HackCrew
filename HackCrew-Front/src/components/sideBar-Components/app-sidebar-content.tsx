@@ -32,11 +32,6 @@ const data = {
           url: "#",
         },
         {
-          title: "members",
-          icon: Users,
-          url: "#",
-        },
-        {
           title: "ChatRoom",
           icon: MessageSquare,
           url: "#",
