@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/sidebar";
 import { useUser } from "@/context/user/user";
 import SidebarGroups from "./app-sidebar-content";
+import { Button } from "../ui/button";
+import AddTeamDialog from "./add-team-dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { Plus } from "lucide-react";
 
 // const data = {
 //   user: {
@@ -52,8 +56,21 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props} className="dark">
       <SidebarHeader className="text-white">
         {teams.length > 0 ? (
-          <div className="w-full flex justify-around items-center">
+          <div className="w-full flex justify-around items-baseline">
             <TeamSwitcher teams={teams} />
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className=" w-1/7 bg-coll6-purple-200 translate-y-2 ">
+                  <div className="flex size-6 items-center justify-center rounded-md ">
+                    <Plus className="size-5 text-coll5-purple-400" />
+                  </div>
+                  {/* <div className="font-medium text-coll5-purple-400">
+                    Add team
+                  </div> */}
+                </Button>
+              </DialogTrigger>
+              <AddTeamDialog />
+            </Dialog>
           </div>
         ) : (
           <div className="flex justify-items-center text-gray-500">
