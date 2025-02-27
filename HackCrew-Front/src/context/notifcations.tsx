@@ -92,31 +92,26 @@ export default function NotificationsProvider({ children }: PropsWithChildren) {
   return (
     <NotificationsContext.Provider value={{ socket }}>
       {children}
-      return (
-      <NotificationsContext.Provider value={{ socket }}>
-        {children}
 
-        <Dialog
-          open={alertMessage !== null}
-          onOpenChange={() => setAlertMessage(null)}
-        >
-          <DialogContent className="dark">
-            <DialogHeader>
-              <DialogTitle className="text-red-800 flex items-center">
-                <Siren className="text-red-800" />
-                Team Alert - {alertMessage?.teamName}
-              </DialogTitle>
-            </DialogHeader>
-            <Label className="text-white capitalize">
-              {alertMessage?.senderName}:
-            </Label>
-            <div className="px-2 text-md text-coll6-purple-400 bg-coll6-purple-200 rounded-sm min-h-14">
-              {alertMessage?.message}
-            </div>
-          </DialogContent>
-        </Dialog>
-      </NotificationsContext.Provider>
-      );
+      <Dialog
+        open={alertMessage !== null}
+        onOpenChange={() => setAlertMessage(null)}
+      >
+        <DialogContent className="dark">
+          <DialogHeader>
+            <DialogTitle className="text-red-800 flex items-center">
+              <Siren className="text-red-800" />
+              Team Alert - {alertMessage?.teamName}
+            </DialogTitle>
+          </DialogHeader>
+          <Label className="text-white capitalize">
+            {alertMessage?.senderName}:
+          </Label>
+          <div className="px-2 text-md text-coll6-purple-400 bg-coll6-purple-200 rounded-sm min-h-14">
+            {alertMessage?.message}
+          </div>
+        </DialogContent>
+      </Dialog>
     </NotificationsContext.Provider>
   );
 }
