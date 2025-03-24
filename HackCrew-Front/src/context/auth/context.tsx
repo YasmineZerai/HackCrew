@@ -10,6 +10,7 @@ import { loginApi } from "@/api/login";
 import { logoutApi } from "@/api/logout";
 import { axios } from "@/lib/axios";
 import { useShouldFetch } from "../should-fetch";
+import { jwtDecode } from "jwt-decode";
 
 type LoginArgs = {
   email: string;
@@ -54,15 +55,23 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log(token);
     if (token) {
-      axios.interceptors.request.use((request) => {
-        request.headers["authorization"] = `Bearer ${token}`;
-        return request;
-      });
-    }
+      const decodedToken: any = jwtDecode(token);
+      const currentTime = Date.now() / 1000;
+      if (decodedToken.exp < currentTime) {
+        localStorage.removeItem("token");
+        dispatcher({ type: "LOGOUT" });
+      } else {
+        axios.interceptors.request.use((request) => {
+          request.headers["authorization"] = `Bearer ${token}`;
+          return request;
+        });
 
-    handleShouldFetch(true);
-  }, []);
+        handleShouldFetch(true);
+      }
+    }
+  }, [state.token]);
 
   const login = async (args: LoginArgs) => {
     const response = await loginApi(args);
@@ -73,9 +82,20 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         request.headers["authorization"] = `Bearer ${token}`;
         return request;
       });
-
+      axios.interceptors.response.use(
+        (response) => response,
+        (error) => {
+          if (
+            error.response &&
+            error.response.data.message === "invalid/expired token"
+          ) {
+            localStorage.removeItem("token");
+            dispatcher({ type: "LOGOUT" });
+          }
+          return Promise.reject(error);
+        }
+      );
       localStorage.setItem("token", token);
-
       dispatcher({ type: "LOGIN", token });
     }
     return response;
