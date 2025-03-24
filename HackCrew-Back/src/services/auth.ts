@@ -38,7 +38,7 @@ export const loginService = async (args: LoginArgs) => {
   const token = await jwt.sign(
     { userId: existingUser._id, email: args.email },
     process.env.JWT_SECRET as string,
-    { expiresIn: 24 * 60 * 60 * 1000 }
+    { expiresIn: 60 * 60 * 24 * 7 }
   );
 
   return {
