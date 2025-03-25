@@ -15,6 +15,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
+import { useNavigate } from "react-router";
 const data = {
   navMain: [
     {
@@ -24,17 +25,17 @@ const data = {
         {
           title: "Team Board",
           icon: Presentation,
-          url: "#",
+          url: "/team-board",
         },
         {
           title: "Progress Tracker",
           icon: LoaderCircle,
-          url: "#",
+          url: "/progress-tracker",
         },
         {
           title: "ChatRoom",
           icon: MessageSquare,
-          url: "#",
+          url: "/chat-room",
         },
       ],
     },
@@ -46,7 +47,7 @@ const data = {
         {
           title: "My Workspace",
           icon: User,
-          url: "#",
+          url: "/home",
         },
       ],
     },
@@ -54,6 +55,7 @@ const data = {
 };
 
 export default function SidebarGroups() {
+  const navigate = useNavigate();
   return (
     <SidebarContent>
       {data.navMain.map((item) => (
@@ -65,7 +67,12 @@ export default function SidebarGroups() {
             <SidebarMenu>
               {item.items.map((item) => (
                 <SidebarMenuItem key={item.title} className="text-white">
-                  <SidebarMenuButton tooltip={item.title}>
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    onClick={() => {
+                      navigate(item.url);
+                    }}
+                  >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </SidebarMenuButton>
