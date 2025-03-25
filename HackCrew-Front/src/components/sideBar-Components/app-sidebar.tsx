@@ -15,32 +15,6 @@ import { Button } from "../ui/button";
 import AddTeamDialog from "./add-team-dialog";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Plus } from "lucide-react";
-
-// const data = {
-//   user: {
-//     name: "shadcn",
-//     email: "m@example.com",
-//     avatar: "/avatars/shadcn.jpg",
-//   },
-//   teams: [
-//     {
-//       name: "Acme Inc",
-//       logo: GalleryVerticalEnd,
-//       plan: "Enterprise",
-//     },
-//     {
-//       name: "Acme Corp.",
-//       logo: AudioWaveform,
-//       plan: "Startup",
-//     },
-//     {
-//       name: "Evil Corp.",
-//       logo: Command,
-//       plan: "Free",
-//     },
-//   ],
-// };
-
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const userContext = useUser();
   const user = {
@@ -64,9 +38,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <div className="flex size-6 items-center justify-center rounded-md ">
                     <Plus className="size-5 text-coll5-purple-400" />
                   </div>
-                  {/* <div className="font-medium text-coll5-purple-400">
-                    Add team
-                  </div> */}
                 </Button>
               </DialogTrigger>
               <AddTeamDialog />

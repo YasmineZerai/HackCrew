@@ -12,6 +12,9 @@ import DemoPage from "./pages/DemoPage/demo";
 import ShouldFetchProvider from "./context/should-fetch";
 import LoggedDasboard from "./layouts/logged-dashboard";
 import NotifactionsProvider from "./context/notifcations";
+import TeamBoard from "./pages/dashboard/teamBoard";
+import ProgressTracker from "./pages/dashboard/progressTracker";
+import ChatRoom from "./pages/dashboard/chatRoom";
 
 function App() {
   return (
@@ -42,6 +45,9 @@ function App() {
               }
             >
               <Route path="/home" element={<Home />} />
+              <Route path="/team-board" element={<TeamBoard />} />
+              <Route path="/progress-tracker" element={<ProgressTracker />} />
+              <Route path="/chat-room" element={<ChatRoom />} />
             </Route>
             <Route path="/home/demo" element={<DemoPage />} />
           </Route>
