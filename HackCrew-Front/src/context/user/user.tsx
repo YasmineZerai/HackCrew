@@ -1,4 +1,4 @@
-import { getLoggedUser } from "@/api/get-logged-user";
+import { getLoggedUser } from "@/api/auth/get-logged-user";
 import { Team, User } from "@/lib/types";
 import {
   createContext,
@@ -12,7 +12,7 @@ import { getTeamsApi } from "@/api/teams/get-teams";
 import { createTeamApi } from "@/api/teams/create-team";
 import { joinTeamApi } from "@/api/teams/join-team";
 import { useShouldFetch } from "../should-fetch";
-import { getUserApi } from "@/api/get-user";
+import { getUserApi } from "@/api/auth/get-user";
 type UserContextType = {
   user: User | null;
   createTeam: (teamName: string) => Promise<any>;

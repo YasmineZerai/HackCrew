@@ -6,8 +6,8 @@ import {
   useReducer,
 } from "react";
 import { authReducer } from "./reducer";
-import { loginApi } from "@/api/login";
-import { logoutApi } from "@/api/logout";
+import { loginApi } from "@/api/auth/login";
+import { logoutApi } from "@/api/auth/logout";
 import { axios } from "@/lib/axios";
 import { useShouldFetch } from "../should-fetch";
 import { jwtDecode } from "jwt-decode";

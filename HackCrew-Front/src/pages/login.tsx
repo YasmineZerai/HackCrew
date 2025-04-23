@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Navigate, useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginApi } from "@/api/login";
+import { loginApi } from "@/api/auth/login";
 import { useAuth } from "@/context/auth/context";
 import { getTeamsApi } from "@/api/teams/get-teams";
 const loginSchema = z.object({

@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerApi } from "@/api/register";
+import { registerApi } from "@/api/auth/register";
 const registerSchema = z.object({
   firstName: z.string().nonempty({ message: "FirstName name is required" }),
   lastName: z.string().nonempty({ message: "LastName name is required" }),
