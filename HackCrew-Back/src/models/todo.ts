@@ -5,6 +5,7 @@ import { Team } from "./team";
 export interface Todo extends Document {
   _id: mongoose.Types.ObjectId;
   task: string;
+  description?: string;
   status: "todo" | "doing" | "done";
   userId: mongoose.Types.ObjectId | User;
   teamId: mongoose.Types.ObjectId | Team;
