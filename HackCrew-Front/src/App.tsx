@@ -29,19 +29,19 @@ function App() {
           <Route
             element={
               <UserProvider>
-                <NotifactionsProvider>
-                  <LoggedInRoutes />
-                </NotifactionsProvider>
+                <TeamsProvider>
+                  <NotifactionsProvider>
+                    <LoggedInRoutes />
+                  </NotifactionsProvider>
+                </TeamsProvider>
               </UserProvider>
             }
           >
             <Route
               element={
-                <TeamsProvider>
-                  <LoggedDasboard>
-                    <Outlet />
-                  </LoggedDasboard>
-                </TeamsProvider>
+                <LoggedDasboard>
+                  <Outlet />
+                </LoggedDasboard>
               }
             >
               <Route path="/home" element={<Home />} />
