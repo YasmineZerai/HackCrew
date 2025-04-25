@@ -5,7 +5,8 @@ export async function notifyTeamMembersService(
   userId: string,
   teamId: string,
   message: string,
-  event: string
+  event: string,
+  obj?: any
 ) {
   const teamMembers = await getMembershipsByTeamId(teamId);
   teamMembers.forEach((membership) => {
@@ -18,6 +19,7 @@ export async function notifyTeamMembersService(
         message: message,
         memberId: userId,
         teamId: teamId,
+        payload: obj,
       });
     }
   });
