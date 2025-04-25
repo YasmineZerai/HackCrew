@@ -24,6 +24,7 @@ const TodoSchema = new Schema<Todo>(
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     teamId: { type: Schema.Types.ObjectId, ref: "Team", required: true },
     dueDate: { type: Date },
+    description: { type: String },
   },
   { timestamps: true }
 );

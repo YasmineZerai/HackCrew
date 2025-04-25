@@ -1,19 +1,20 @@
 import mongoose from "mongoose";
 import { TodoModel } from "../models/todo";
 
-// ✅ Create Todo
 export async function createTodo({
   userId,
   teamId,
   task,
   status,
   dueDate,
+  description,
 }: {
   userId: string;
   teamId: string;
   task: string;
   status: string;
   dueDate?: string;
+  description?: string;
 }) {
   return await TodoModel.create({
     userId,
@@ -21,6 +22,7 @@ export async function createTodo({
     task,
     status,
     dueDate,
+    description,
   });
 }
 

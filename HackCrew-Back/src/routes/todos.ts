@@ -33,12 +33,12 @@ export function configureTodosRoutes(app: Application) {
           task: z.string().min(1, "Task is required"),
           status: z.enum(["todo", "in-progress", "done"]),
           dueDate: z.string().datetime().optional(),
+          description: z.string().optional(),
         }),
       })
     ),
     createTodoController,
   ]);
-
   app.get("/teams/:teamId/todos/me", [
     authMiddleware,
     validation(

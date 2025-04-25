@@ -11,17 +11,34 @@ import {
 import { Todo } from "../models/todo";
 import { getTeamById } from "../database/team";
 import { memberIsInTeamService } from "./teams";
+import { notifyTeamMembersService } from "./notifications";
 
 export async function createTodoService(
   userId: string,
   teamId: string,
   task: string,
   status: string,
-  dueDate?: string
+  dueDate?: string,
+  description?: string
 ) {
   const existingTeam = await getTeamById(teamId);
   if (existingTeam) {
-    const newTodo = await createTodo({ userId, teamId, task, status, dueDate });
+    const newTodo = await createTodo({
+      userId,
+      teamId,
+      task,
+      status,
+      dueDate,
+      description,
+    });
+    if (status == "done")
+      notifyTeamMembersService(
+        userId,
+        teamId,
+        "done todo",
+        "done-todo",
+        newTodo
+      );
     return {
       status: 201,
       success: true,

@@ -12,13 +12,14 @@ import {
 export const createTodoController = async (req: Request, res: Response) => {
   const userId = req.body.loggedUser.userId;
   const { teamId } = req.params;
-  const { task, status, dueDate } = req.body;
+  const { task, status, dueDate, description } = req.body;
   const response = await createTodoService(
     userId,
     teamId,
     task,
     status,
-    dueDate
+    dueDate,
+    description
   );
 
   res.status(response.status).json({
