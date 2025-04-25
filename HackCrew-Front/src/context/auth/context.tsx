@@ -55,7 +55,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       const decodedToken: any = jwtDecode(token);
       const currentTime = Date.now() / 1000;

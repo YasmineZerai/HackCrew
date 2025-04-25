@@ -11,10 +11,41 @@ import { useShouldFetch } from "@/context/should-fetch";
 import { useTeams } from "@/context/teams/useTeams";
 import { useUser } from "@/context/user/user";
 import { useEffect } from "react";
+import { useNotifications } from "@/context/notifcations";
+import { toast } from "sonner";
 export default function LoggedDasboard({ children }: PropsWithChildren) {
   const teamContext = useTeams();
   const userContext = useUser();
+  const notificationContext = useNotifications();
   const shouldFetch = useShouldFetch();
+  const socket = notificationContext.socket;
+  useEffect(() => {
+    const handleDoneTodo = (data: any) => {
+      const newTodo = data.payload;
+      teamContext.setTodos([
+        ...teamContext.teamTodos,
+        {
+          userId: newTodo.userId,
+          _id: newTodo._id,
+          teamId: newTodo.teamId,
+          task: newTodo.task,
+          status: newTodo.status,
+          description: newTodo.description,
+        },
+      ]);
+
+      userContext.getUserById(data.memberId).then(([response, errors]) => {
+        toast("Finished Task !", {
+          description: `${response.payload.user.firstName} ${response.payload.user.lastName} finished a task`,
+        });
+      });
+    };
+
+    socket?.on("done-todo", handleDoneTodo);
+    return () => {
+      socket?.off("done-todo", handleDoneTodo);
+    };
+  }, [socket, teamContext, userContext]);
   useEffect(() => {
     if (userContext.teams.length > 0) {
       teamContext.setActiveTeam(
@@ -29,6 +60,7 @@ export default function LoggedDasboard({ children }: PropsWithChildren) {
         .then(([response, errors]) => {
           teamContext.setMembers(response.payload.users);
         });
+      teamContext.getTeamTodos(teamContext.activeTeam._id);
     }
   }, [shouldFetch.shouldFetch, teamContext.activeTeam]);
   return (

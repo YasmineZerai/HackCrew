@@ -15,10 +15,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { getTeamByIdApi } from "@/api/teams/get-team";
 import { Siren } from "lucide-react";
 import { Label } from "@radix-ui/react-label";
+import { useTeams } from "./teams/useTeams";
+import { Todo } from "@/lib/types";
 
 type NotificationsContextStore = {
   socket: Socket | null;
@@ -38,6 +39,7 @@ export function useNotifications() {
 
 export default function NotificationsProvider({ children }: PropsWithChildren) {
   const userContext = useUser();
+  const teamContext = useTeams();
   const shouldFetch = useShouldFetch();
   const [socket, setSocket] = useState<Socket | null>(null);
   const [alertMessage, setAlertMessage] = useState<AlertMessage | null>(null);
@@ -50,6 +52,7 @@ export default function NotificationsProvider({ children }: PropsWithChildren) {
     });
     setSocket(newSocket);
   }, []);
+
   useEffect(() => {
     if (!socket) return;
 
@@ -59,18 +62,18 @@ export default function NotificationsProvider({ children }: PropsWithChildren) {
         socket.emit("join", { userId });
       }
     }
-    socket.on("team-member-joined", (data) => {
+
+    const handleTeamMemberJoined = (data: any) => {
       userContext.getUserById(data.memberId).then(([response, errors]) => {
         getTeamByIdApi(data.teamId).then(([payload, error]) => {
           toast("New Member Joined", {
-            description: `${response.payload.user.firstName} ${response.payload.user.lastName} joined your team ${payload.payload.team.teamName} `,
+            description: `${response.payload.user.firstName} ${response.payload.user.lastName} joined your team ${payload.payload.team.teamName}`,
           });
         });
       });
-    });
+    };
 
-    socket.on("team-member-alert", (data) => {
-      console.log("Team alert received:", data);
+    const handleTeamMemberAlert = (data: any) => {
       userContext.getUserById(data.memberId).then(([response, errors]) => {
         getTeamByIdApi(data.teamId).then(([payload, error]) => {
           const message = {
@@ -79,16 +82,39 @@ export default function NotificationsProvider({ children }: PropsWithChildren) {
             teamName: `${payload.payload.team.teamName}`,
           };
           setAlertMessage(message);
-          console.log(message);
         });
       });
-      return () => {
-        socket.off("team-member-joined");
-        socket.off("team-member-alert");
-      };
-    });
-  }, [socket, userContext.user]);
+    };
 
+    const handleDoneTodo = (data: any) => {
+      const newTodo = data.payload;
+      teamContext.setTodos([
+        ...teamContext.teamTodos,
+        {
+          userId: newTodo.userId,
+          _id: newTodo._id,
+          teamId: newTodo.teamId,
+          task: newTodo.task,
+          status: newTodo.status,
+          description: newTodo.description,
+        },
+      ]);
+
+      userContext.getUserById(data.memberId).then(([response, errors]) => {
+        toast("Finished Task !", {
+          description: `${response.payload.user.firstName} ${response.payload.user.lastName} finished a task`,
+        });
+      });
+    };
+
+    socket.on("team-member-joined", handleTeamMemberJoined);
+    socket.on("team-member-alert", handleTeamMemberAlert);
+
+    return () => {
+      socket.off("team-member-joined", handleTeamMemberJoined);
+      socket.off("team-member-alert", handleTeamMemberAlert);
+    };
+  }, [socket, userContext.user, shouldFetch.shouldFetch]);
   return (
     <NotificationsContext.Provider value={{ socket }}>
       {children}

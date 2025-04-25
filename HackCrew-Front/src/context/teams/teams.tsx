@@ -1,10 +1,11 @@
-import { Team, User } from "@/lib/types";
+import { Team, Todo, User } from "@/lib/types";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { getTeamMembersApi } from "@/api/teams/get-team-members";
 import { getTeamCodeApi } from "@/api/teams/get-team-code";
 import { joinTeamApi } from "@/api/teams/join-team";
 import { inviteUserApi } from "@/api/teams/invite-user";
 import { createTeamCodeApi } from "@/api/teams/create-team-code";
+import { getTeamTodosApi } from "@/api/todos/get-todos-team";
 interface TeamsContextType {
   activeTeam: Team;
   setActiveTeam: (team: Team) => void;
@@ -19,6 +20,9 @@ interface TeamsContextType {
   setHasCode: (state: boolean) => void;
   members: User[];
   setMembers: (tab: User[]) => void;
+  getTeamTodos: (teamId: string) => any;
+  teamTodos: Todo[];
+  setTodos: any;
 }
 
 export const TeamsContext = createContext({} as TeamsContextType);
@@ -27,6 +31,7 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
   const [teamCode, setTeamCode] = useState("");
   const [hasCode, setHasCode] = useState(false);
   const [members, setMembers] = useState([] as User[]);
+  const [teamTodos, setTodos] = useState([] as Todo[]);
   const getTeamMembers = async (teamId: string): Promise<any[]> => {
     const response = await getTeamMembersApi(teamId);
     const [data, error] = response;
@@ -55,6 +60,14 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
     }
     return response;
   };
+  const getTeamTodos = async (teamId: string) => {
+    const response = await getTeamTodosApi({ teamId });
+    const [data, error] = response;
+    if (data) {
+      setTodos(data.payload.todos);
+    }
+  };
+
   return (
     <TeamsContext.Provider
       value={{
@@ -71,6 +84,9 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
         setTeamCode,
         members,
         setMembers,
+        getTeamTodos,
+        teamTodos,
+        setTodos,
       }}
     >
       {children}
