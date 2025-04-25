@@ -10,3 +10,12 @@ export interface User {
   password: string;
   email: string;
 }
+export interface Todo {
+  _id: string;
+  task: string;
+  status: string;
+  userId: string;
+  teamId: string;
+  dueDate?: string;
+  description?: string;
+}
