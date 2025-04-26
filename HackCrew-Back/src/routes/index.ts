@@ -4,6 +4,7 @@ import { configureAuthRoutes } from "./auth";
 import { configureTeamsRoutes } from "./teams";
 import { configureMembersRoutes } from "./members";
 import { configureTodosRoutes } from "./todos";
+import { configureRessourceRoutes } from "./ressource";
 
 export function configureRoutes(app: Application) {
   configureUserRoutes(app);
@@ -11,4 +12,5 @@ export function configureRoutes(app: Application) {
   configureTeamsRoutes(app);
   configureMembersRoutes(app);
   configureTodosRoutes(app);
+  configureRessourceRoutes(app);
 }
