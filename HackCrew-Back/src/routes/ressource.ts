@@ -5,6 +5,7 @@ import {
   getRessourcesController,
   updateRessourceController,
   deleteRessourceController,
+  getFileController,
 } from "../controllers/ressource";
 import { authMiddleware } from "../middlewares/auth";
 import { validation } from "../middlewares/validate";
@@ -45,6 +46,7 @@ export function configureRessourceRoutes(app: Application) {
     ),
     getRessourcesController
   );
+  app.get("/files/uploads/:filename", authMiddleware, getFileController);
   //jawha behi
   app.put(
     "/ressources/:ressourceId",
