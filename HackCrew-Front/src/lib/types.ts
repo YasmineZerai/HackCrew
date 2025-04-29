@@ -19,3 +19,11 @@ export interface Todo {
   dueDate?: string;
   description?: string;
 }
+export interface Ressource {
+  _id: string;
+  userId: string;
+  teamId: string;
+  path?: string;
+  description?: string;
+  link?: string;
+}
