@@ -14,14 +14,13 @@ import TodoItem from "./todoItem";
 
 export default function TeamUpdates() {
   const teamContext = useTeams();
-
   return (
     <Card className={cn("w-1/3 h-max")}>
       <CardHeader>
         <CardTitle className="text-2xl">Team Updates</CardTitle>
         <CardDescription className="flex">
           <Check className="text-green-500" />
-          finished tasks
+          Finished tasks
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">

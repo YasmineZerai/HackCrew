@@ -1,4 +1,4 @@
-import { Team, Todo, User } from "@/lib/types";
+import { Ressource, Team, Todo, User } from "@/lib/types";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { getTeamMembersApi } from "@/api/teams/get-team-members";
 import { getTeamCodeApi } from "@/api/teams/get-team-code";
@@ -6,6 +6,7 @@ import { joinTeamApi } from "@/api/teams/join-team";
 import { inviteUserApi } from "@/api/teams/invite-user";
 import { createTeamCodeApi } from "@/api/teams/create-team-code";
 import { getTeamTodosApi } from "@/api/todos/get-todos-team";
+import { getTeamRessourcesApi } from "@/api/ressources/get-team-resources";
 interface TeamsContextType {
   activeTeam: Team;
   setActiveTeam: (team: Team) => void;
@@ -23,6 +24,9 @@ interface TeamsContextType {
   getTeamTodos: (teamId: string) => any;
   teamTodos: Todo[];
   setTodos: any;
+  getTeamRessources: (teamId: string) => any;
+  teamRessources: Ressource[];
+  setRessources: any;
 }
 
 export const TeamsContext = createContext({} as TeamsContextType);
@@ -32,6 +36,7 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
   const [hasCode, setHasCode] = useState(false);
   const [members, setMembers] = useState([] as User[]);
   const [teamTodos, setTodos] = useState([] as Todo[]);
+  const [teamRessources, setRessources] = useState([] as Ressource[]);
   const getTeamMembers = async (teamId: string): Promise<any[]> => {
     const response = await getTeamMembersApi(teamId);
     const [data, error] = response;
@@ -67,6 +72,13 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
       setTodos(data.payload.todos);
     }
   };
+  const getTeamRessources = async (teamId: string) => {
+    const response = await getTeamRessourcesApi({ teamId });
+    const [data, error] = response;
+    if (data) {
+      setRessources(data.payload.ressources);
+    }
+  };
 
   return (
     <TeamsContext.Provider
@@ -87,6 +99,9 @@ export default function TeamsProvider({ children }: PropsWithChildren) {
         getTeamTodos,
         teamTodos,
         setTodos,
+        getTeamRessources,
+        teamRessources,
+        setRessources,
       }}
     >
       {children}
