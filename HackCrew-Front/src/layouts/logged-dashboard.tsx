@@ -61,6 +61,7 @@ export default function LoggedDasboard({ children }: PropsWithChildren) {
           teamContext.setMembers(response.payload.users);
         });
       teamContext.getTeamTodos(teamContext.activeTeam._id);
+      teamContext.getTeamRessources(teamContext.activeTeam._id);
     }
   }, [shouldFetch.shouldFetch, teamContext.activeTeam]);
   return (
