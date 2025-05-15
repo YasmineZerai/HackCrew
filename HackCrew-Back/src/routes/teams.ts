@@ -12,6 +12,7 @@ import {
 } from "../controllers/teams";
 import mongoose from "mongoose";
 import { getTeamMembersController } from "../controllers/members";
+import { memberVerificationMiddleware } from "../middlewares/team";
 
 export function configureTeamsRoutes(app: Application) {
   //create team
@@ -40,6 +41,7 @@ export function configureTeamsRoutes(app: Application) {
         }),
       })
     ),
+    memberVerificationMiddleware,
     createTeamCodeController,
   ]);
   //invite user to team

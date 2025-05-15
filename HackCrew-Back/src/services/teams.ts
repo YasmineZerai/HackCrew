@@ -95,12 +95,6 @@ export async function inviteUserToTeamService(
 }
 //jawha behi
 export async function createTeamCodeService(teamId: string, userId: string) {
-  if (!(await memberIsInTeamService(teamId, userId)))
-    return {
-      success: false,
-      status: 403,
-      message: "cannot create code for this team",
-    };
   const existingTeamCode = await getTeamCode(teamId);
   if (existingTeamCode)
     return {
